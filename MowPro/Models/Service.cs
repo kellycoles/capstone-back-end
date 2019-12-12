@@ -15,6 +15,8 @@ namespace MowPro.Models
         [Required]
         public string Description { get; set; }
         [Required]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
+        [Required]
+        public ApplicationUser User { get; set; }
     }
 }
