@@ -13,14 +13,31 @@ namespace MowPro.Data
         public DbSet<Customer> Customer { get; set; }
         public DbSet<Job> Job { get; set; }
         public DbSet<Service> Service { get; set; }
-        // Make database tables singular
+
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Customer>().ToTable("Customer ");
+            base.OnModelCreating(modelBuilder);
+
+            // Customize the ASP.NET Identity model and override the defaults if needed.
+
+            // Make database tables singular
+            //=========================================
+            modelBuilder.Entity<Customer>().ToTable("Customer");
             modelBuilder.Entity<Job>().ToTable("Job");
             modelBuilder.Entity<Service>().ToTable("Service");
 
-            //seed database
+
+            //Prevent cascade deletes
+            //=========================================
+            //modelBuilder.Entity<Service>()
+            //  .HasMany(o => o.Job)
+            //  .WithOne(l => l.Service)
+            //  .OnDelete(DeleteBehavior.Restrict);
+
+  
+            //Seed database
+            //=========================================
             // Create a new user for Identity Framework
             ApplicationUser user = new ApplicationUser
             {
@@ -39,7 +56,7 @@ namespace MowPro.Data
             user.PasswordHash = passwordHash.HashPassword(user, "Admin8*");
             modelBuilder.Entity<ApplicationUser>().HasData(user);
 
-            //Create a Customer
+            //Create Customers
             modelBuilder.Entity<Customer>().HasData(
                 new Customer()
                 {
@@ -50,7 +67,8 @@ namespace MowPro.Data
                     StreetAddress = "5314 Grassland Drive",
                     City = "Murfreesboro",
                     Email = "Joey@gmail.com",
-                    PhoneNumber = "615-812-9307"
+                    PhoneNumber = "615-812-9307",
+                    Preferences = "Cut on 4"
                 },
                 new Customer()
                 {
@@ -61,9 +79,11 @@ namespace MowPro.Data
                     StreetAddress = "4331 Banks Street",
                     City = "Murfreesboro",
                     Email = "Jenny@gmail.com",
-                    PhoneNumber = "555-867-5309"
+                    PhoneNumber = "555-867-5309",
+                    Preferences = "Cut on 3, don't edge trees"
                 }
              );
+            //Create Services
             modelBuilder.Entity<Service>().HasData(
                 new Service()
                 {
@@ -82,9 +102,11 @@ namespace MowPro.Data
 
                 }
             );
+            //Create Jobs
             modelBuilder.Entity<Job>().HasData(
                 new Job()
                 {
+                    JobId = 1,
                     ServiceId = 1,
                     CustomerId = 1,
                     Cost = 50.00,
@@ -92,7 +114,16 @@ namespace MowPro.Data
                     Paid = true,
                     Notes = "There was a car parked on the grass. I could not mow that area."
                 },
-
+                new Job()
+                {
+                    JobId = 2,
+                    ServiceId = 1,
+                    CustomerId = 2,
+                    Cost = 50.00,
+                    IsComplete = true,
+                    Paid = false,
+                    Notes = "The money was not where he said it would be."
+                }
              ); 
         }
 

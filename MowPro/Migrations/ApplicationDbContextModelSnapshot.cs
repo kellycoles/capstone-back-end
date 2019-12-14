@@ -225,6 +225,26 @@ namespace MowPro.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "00000000-ffff-ffff-ffff-ffffffffffff",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "19a0ae0b-15ee-40cd-b701-4a3a913ce1aa",
+                            Email = "admin@admin.com",
+                            EmailConfirmed = true,
+                            FirstName = "admin",
+                            LastName = "admin",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@ADMIN.COM",
+                            NormalizedUserName = "ADMIN@ADMIN.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEI07t4D2InQoQH+bzrI/rSJw68QLyN6sp3sO/9peVW2XkSeib3hedqJ4NT41l3Vwqg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@admin.com"
+                        });
                 });
 
             modelBuilder.Entity("MowPro.Models.Customer", b =>
@@ -235,7 +255,6 @@ namespace MowPro.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("City")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -255,6 +274,9 @@ namespace MowPro.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Preferences")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("StreetAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -263,38 +285,39 @@ namespace MowPro.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Zip")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("CustomerId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Customer");
-                });
 
-            modelBuilder.Entity("MowPro.Models.CustomerService", b =>
-                {
-                    b.Property<int>("CustomerServiceId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Cost")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ServiceId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CustomerServiceId");
-
-                    b.ToTable("CustomerService");
+                    b.HasData(
+                        new
+                        {
+                            CustomerId = 1,
+                            City = "Murfreesboro",
+                            Email = "Joey@gmail.com",
+                            FirstName = "Joe",
+                            LastName = "Smith",
+                            PastDue = false,
+                            PhoneNumber = "615-812-9307",
+                            Preferences = "Cut on 4",
+                            StreetAddress = "5314 Grassland Drive",
+                            UserId = "00000000-ffff-ffff-ffff-ffffffffffff"
+                        },
+                        new
+                        {
+                            CustomerId = 2,
+                            City = "Murfreesboro",
+                            Email = "Jenny@gmail.com",
+                            FirstName = "Jenny",
+                            LastName = "Stevens",
+                            PastDue = false,
+                            PhoneNumber = "555-867-5309",
+                            Preferences = "Cut on 3, don't edge trees",
+                            StreetAddress = "4331 Banks Street",
+                            UserId = "00000000-ffff-ffff-ffff-ffffffffffff"
+                        });
                 });
 
             modelBuilder.Entity("MowPro.Models.Job", b =>
@@ -304,18 +327,54 @@ namespace MowPro.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CustomerServiceId")
+                    b.Property<double>("Cost")
+                        .HasColumnType("float");
+
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsComplete")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("Paid")
                         .HasColumnType("bit");
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("int");
 
                     b.HasKey("JobId");
 
                     b.ToTable("Job");
+
+                    b.HasData(
+                        new
+                        {
+                            JobId = 1,
+                            Cost = 50.0,
+                            CustomerId = 1,
+                            Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsComplete = true,
+                            Notes = "There was a car parked on the grass. I could not mow that area.",
+                            Paid = true,
+                            ServiceId = 1
+                        },
+                        new
+                        {
+                            JobId = 2,
+                            Cost = 50.0,
+                            CustomerId = 2,
+                            Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsComplete = true,
+                            Notes = "The money was not where he said it would be.",
+                            Paid = false,
+                            ServiceId = 1
+                        });
                 });
 
             modelBuilder.Entity("MowPro.Models.Service", b =>
@@ -341,6 +400,22 @@ namespace MowPro.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Service");
+
+                    b.HasData(
+                        new
+                        {
+                            ServiceId = 1,
+                            Description = " Mow includes mowing, weedeating and edging around concrete, flower beds and trees, and blowing the grass off of all concrete.",
+                            Name = "Mow",
+                            UserId = "00000000-ffff-ffff-ffff-ffffffffffff"
+                        },
+                        new
+                        {
+                            ServiceId = 2,
+                            Description = "Hedge Trimming includes trimming hedges to the customer's specification, and removing all debris.",
+                            Name = "Hedge Trimming",
+                            UserId = "00000000-ffff-ffff-ffff-ffffffffffff"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

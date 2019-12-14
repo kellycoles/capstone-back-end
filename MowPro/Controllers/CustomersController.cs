@@ -62,7 +62,7 @@ namespace MowPro.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CustomerId,FirstName,LastName,StreetAddress,City,Zip,Email,PhoneNumber,PastDue,UserId")] Customer customer)
+        public async Task<IActionResult> Create([Bind("CustomerId,FirstName,LastName,StreetAddress,City,Email,PhoneNumber,Preferences,UserId")] Customer customer)
         {
             //This UserId is the property in Customers. We are ignoring for now because we dont want to add it to a new customer 
             ModelState.Remove("UserId");
@@ -98,7 +98,7 @@ namespace MowPro.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CustomerId,FirstName,LastName,StreetAddress,City,Zip,Email,PhoneNumber,PastDue,UserId")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("CustomerId,FirstName,LastName,StreetAddress,City,Email,PhoneNumber,,PreferencesUserId")] Customer customer)
         {
             if (id != customer.CustomerId)
             {
