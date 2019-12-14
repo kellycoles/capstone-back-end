@@ -27,11 +27,11 @@ namespace MowPro.Models
         public string StreetAddress { get; set; }
         [Required]
         public string City { get; set; }
-        [Required]
+       
         public string Zip { get; set; }
 
         public string Email { get; set; }
-        [Required]
+       
         [Display(Name = "Phone")]
         public string PhoneNumber { get; set; }
         [Display(Name = "Past Due")]

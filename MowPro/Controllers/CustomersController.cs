@@ -54,7 +54,6 @@ namespace MowPro.Controllers
         // GET: Customers/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id");
             return View();
         }
 
@@ -63,7 +62,7 @@ namespace MowPro.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CustomerId,FirstName,LastName,StreetAddress,City,Zip,Email,PhoneNumber,PastDue")] Customer customer)
+        public async Task<IActionResult> Create([Bind("CustomerId,FirstName,LastName,StreetAddress,City,Zip,Email,PhoneNumber,PastDue,UserId")] Customer customer)
         {
             //This UserId is the property in Customers. We are ignoring for now because we dont want to add it to a new customer 
             ModelState.Remove("UserId");
@@ -75,7 +74,6 @@ namespace MowPro.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id");
             return View(customer);
         }
 
@@ -100,7 +98,7 @@ namespace MowPro.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CustomerId,FirstName,LastName,StreetAddress,City,Zip,Email,PhoneNumber,PastDue")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("CustomerId,FirstName,LastName,StreetAddress,City,Zip,Email,PhoneNumber,PastDue,UserId")] Customer customer)
         {
             if (id != customer.CustomerId)
             {
@@ -111,6 +109,8 @@ namespace MowPro.Controllers
             {
                 try
                 {
+                      var user = await _userManager.GetUserAsync(HttpContext.User);
+                      customer.UserId = user.Id;
                     _context.Update(customer);
                     await _context.SaveChangesAsync();
                 }

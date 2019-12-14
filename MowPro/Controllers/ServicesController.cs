@@ -28,8 +28,8 @@ namespace MowPro.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await GetCurrentUserAsync();
-            var services = _context.Service.Include(p => p.User).Where(p => p.UserId == user.Id);
-            return View(await _context.Service.ToListAsync());
+            var services = await _context.Service.Include(p => p.User).Where(p => p.UserId == user.Id).ToListAsync();
+            return View(services);
         }
 
         // GET: Services/Details/5
@@ -63,8 +63,11 @@ namespace MowPro.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ServiceId,Name,Description,UserId")] Service service)
         {
+            ModelState.Remove("UserId");
             if (ModelState.IsValid)
             {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                service.UserId = user.Id;
                 _context.Add(service);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -99,11 +102,13 @@ namespace MowPro.Controllers
             {
                 return NotFound();
             }
-
+            ModelState.Remove("UserId");
             if (ModelState.IsValid)
             {
                 try
                 {
+                    var user = await _userManager.GetUserAsync(HttpContext.User);
+                    service.UserId = user.Id;
                     _context.Update(service);
                     await _context.SaveChangesAsync();
                 }
