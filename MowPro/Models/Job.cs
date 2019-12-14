@@ -13,9 +13,10 @@ namespace MowPro.Models
         [Required]
         [Display(Name = "Date")]
         public DateTime Date { get; set; }
+        public string Notes { get; set; }
         [Display(Name = "Payment Collected")]
         public bool Paid { get; set; }
-        public int Cost { get; set; }
+        public double Cost { get; set; }
         [Display(Name = "Job Complete")]
         public bool IsComplete { get; set; }
         public int CustomerId { get; set; }
