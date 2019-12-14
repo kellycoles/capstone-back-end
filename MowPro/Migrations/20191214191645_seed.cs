@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MowPro.Migrations
 {
-    public partial class initail : Migration
+    public partial class seed : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -49,69 +49,22 @@ namespace MowPro.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Customer",
-                columns: table => new
-                {
-                    CustomerId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(nullable: false),
-                    LastName = table.Column<string>(nullable: false),
-                    StreetAddress = table.Column<string>(nullable: false),
-                    City = table.Column<string>(nullable: false),
-                    Zip = table.Column<string>(nullable: false),
-                    Email = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: false),
-                    PastDue = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Customer", x => x.CustomerId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CustomerService",
-                columns: table => new
-                {
-                    CustomerServiceId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Notes = table.Column<string>(nullable: true),
-                    Cost = table.Column<int>(nullable: false),
-                    CustomerId = table.Column<int>(nullable: false),
-                    ServiceId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CustomerService", x => x.CustomerServiceId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Job",
                 columns: table => new
                 {
                     JobId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Date = table.Column<DateTime>(nullable: false),
+                    Notes = table.Column<string>(nullable: true),
                     Paid = table.Column<bool>(nullable: false),
-                    CustomerServiceId = table.Column<int>(nullable: false)
+                    Cost = table.Column<double>(nullable: false),
+                    IsComplete = table.Column<bool>(nullable: false),
+                    CustomerId = table.Column<int>(nullable: false),
+                    ServiceId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Job", x => x.JobId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Service",
-                columns: table => new
-                {
-                    ServiceId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: false),
-                    Description = table.Column<string>(nullable: false),
-                    UserId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Service", x => x.ServiceId);
                 });
 
             migrationBuilder.CreateTable(
@@ -220,6 +173,87 @@ namespace MowPro.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Customer",
+                columns: table => new
+                {
+                    CustomerId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(nullable: false),
+                    StreetAddress = table.Column<string>(nullable: false),
+                    City = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    Preferences = table.Column<string>(nullable: true),
+                    PastDue = table.Column<bool>(nullable: false),
+                    UserId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customer", x => x.CustomerId);
+                    table.ForeignKey(
+                        name: "FK_Customer_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Service",
+                columns: table => new
+                {
+                    ServiceId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Service", x => x.ServiceId);
+                    table.ForeignKey(
+                        name: "FK_Service_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "00000000-ffff-ffff-ffff-ffffffffffff", 0, "19a0ae0b-15ee-40cd-b701-4a3a913ce1aa", "admin@admin.com", true, "admin", "admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEI07t4D2InQoQH+bzrI/rSJw68QLyN6sp3sO/9peVW2XkSeib3hedqJ4NT41l3Vwqg==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794577", false, "admin@admin.com" });
+
+            migrationBuilder.InsertData(
+                table: "Job",
+                columns: new[] { "JobId", "Cost", "CustomerId", "Date", "IsComplete", "Notes", "Paid", "ServiceId" },
+                values: new object[] { 1, 50.0, 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, "There was a car parked on the grass. I could not mow that area.", true, 1 });
+
+            migrationBuilder.InsertData(
+                table: "Job",
+                columns: new[] { "JobId", "Cost", "CustomerId", "Date", "IsComplete", "Notes", "Paid", "ServiceId" },
+                values: new object[] { 2, 50.0, 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, "The money was not where he said it would be.", false, 1 });
+
+            migrationBuilder.InsertData(
+                table: "Customer",
+                columns: new[] { "CustomerId", "City", "Email", "FirstName", "LastName", "PastDue", "PhoneNumber", "Preferences", "StreetAddress", "UserId" },
+                values: new object[,]
+                {
+                    { 1, "Murfreesboro", "Joey@gmail.com", "Joe", "Smith", false, "615-812-9307", "Cut on 4", "5314 Grassland Drive", "00000000-ffff-ffff-ffff-ffffffffffff" },
+                    { 2, "Murfreesboro", "Jenny@gmail.com", "Jenny", "Stevens", false, "555-867-5309", "Cut on 3, don't edge trees", "4331 Banks Street", "00000000-ffff-ffff-ffff-ffffffffffff" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Service",
+                columns: new[] { "ServiceId", "Description", "Name", "UserId" },
+                values: new object[,]
+                {
+                    { 1, " Mow includes mowing, weedeating and edging around concrete, flower beds and trees, and blowing the grass off of all concrete.", "Mow", "00000000-ffff-ffff-ffff-ffffffffffff" },
+                    { 2, "Hedge Trimming includes trimming hedges to the customer's specification, and removing all debris.", "Hedge Trimming", "00000000-ffff-ffff-ffff-ffffffffffff" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -258,6 +292,16 @@ namespace MowPro.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Customer_UserId",
+                table: "Customer",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Service_UserId",
+                table: "Service",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -279,9 +323,6 @@ namespace MowPro.Migrations
 
             migrationBuilder.DropTable(
                 name: "Customer");
-
-            migrationBuilder.DropTable(
-                name: "CustomerService");
 
             migrationBuilder.DropTable(
                 name: "Job");

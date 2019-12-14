@@ -20,20 +20,30 @@ namespace MowPro.Models
         public string LastName { get; set; }
 
         [NotMapped]
+        [Display(Name = "Name")]
         public string FullName => $"{FirstName} {LastName}";
+
+        [Required]
         [Display(Name = "Street Address")]
-        [Required]
         public string StreetAddress { get; set; }
-        [Required]
+
         public string City { get; set; }
-        [Required]
-        public string Zip { get; set; }
+     
 
         public string Email { get; set; }
-        [Required]
-        [Display(Name = "Phone Number")]
+       
+        [Display(Name = "Phone")]
         public string PhoneNumber { get; set; }
+
+        public string Preferences { get; set; }
+
+        [Display(Name = "Past Due")]
         public bool PastDue { get; set; }
+
+        [Required]
+        public string UserId { get; set; }
+
+        public ApplicationUser User { get; set; }
 
     }
 }
