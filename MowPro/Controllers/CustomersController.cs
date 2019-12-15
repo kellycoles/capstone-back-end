@@ -98,7 +98,7 @@ namespace MowPro.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CustomerId,FirstName,LastName,StreetAddress,City,Email,PhoneNumber,,PreferencesUserId")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("CustomerId,FirstName,LastName,StreetAddress,City,Email,PhoneNumber,Preferences,UserId")] Customer customer)
         {
             if (id != customer.CustomerId)
             {
