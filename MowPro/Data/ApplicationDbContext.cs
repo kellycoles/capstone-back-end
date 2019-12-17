@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MowPro.Models;
+using System;
 
 namespace MowPro.Data
 {
@@ -30,9 +31,9 @@ namespace MowPro.Data
 
             //Prevent cascade deletes
             //=========================================
-            //modelBuilder.Entity<Service>()
-            //  .HasMany(o => o.Job)
-            //  .WithOne(l => l.Service)
+            //modelBuilder.Entity<Job>()
+            //  .HasMany(o => o.Service)
+            //  .WithOne(l => l.Job)
             //  .OnDelete(DeleteBehavior.Restrict);
 
   
@@ -109,6 +110,7 @@ namespace MowPro.Data
                     JobId = 1,
                     ServiceId = 1,
                     CustomerId = 1,
+                    Date = new DateTime(2019, 5, 15),
                     Cost = 50.00,
                     IsComplete = true,
                     Paid = true,
@@ -119,6 +121,7 @@ namespace MowPro.Data
                     JobId = 2,
                     ServiceId = 1,
                     CustomerId = 2,
+                    Date = new DateTime(2019, 6, 8),
                     Cost = 50.00,
                     IsComplete = true,
                     Paid = false,

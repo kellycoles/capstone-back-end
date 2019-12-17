@@ -1,0 +1,65 @@
+﻿@model MowPro.Models.ViewModels.JobCreateViewModel;
+
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Job</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Job.Date" class="control-label"></label>
+                <input asp-for="Job.Date" class="form-control" />
+                <span asp-validation-for="Job.Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Job.CustomerId" class="control-label"></label>
+                <select asp-for="Job.CustomerId" class="form-control" asp-items="@Model.CustomerOptions"></select>
+                <span asp-validation-for="Job.CustomerId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Job.ServiceId" class="control-label"></label>
+                <select asp-for="Job.ServiceId" class="form-control" asp-items="@Model.ServiceOptions"></select>
+                <span asp-validation-for="Job.ServiceId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Job.Notes" class="control-label"></label>
+                <textarea asp-for="Job.Notes" class="form-control"></textarea>
+                <span asp-validation-for="Job.Notes" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Job.Cost" class="control-label"></label>
+                <input asp-for="Job.Cost" class="form-control" />
+                <span asp-validation-for="Job.Cost" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Job.IsComplete" /> @Html.DisplayNameFor(model => model.Job.IsComplete)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Job.Paid" /> @Html.DisplayNameFor(model => model.Job.Paid)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

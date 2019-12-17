@@ -11,6 +11,7 @@ namespace MowPro.Models
         [Key]
         public int ServiceId { get; set; }
         [Required]
+        [Display(Name = "Service")]
         public string Name { get; set; }
        
         public string Description { get; set; }

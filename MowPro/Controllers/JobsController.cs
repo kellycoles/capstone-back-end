@@ -9,31 +9,33 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MowPro.Data;
 using MowPro.Models;
+using MowPro.Models.ViewModels;
 
 namespace MowPro.Controllers
 {
-    public class CustomersController : Controller
+    public class JobsController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
-        public CustomersController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+
+        public JobsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;
         }
-
-        // GET: Customers
         [Authorize]
+        // GET: Jobs
         public async Task<IActionResult> Index()
         {
-            var user = await GetCurrentUserAsync();
-            var customers = await _context.Customer.Include(p => p.User).Where(p => p.UserId == user.Id).ToListAsync();
-            return View(customers);
-
+            var applicationDbContext = _context.Job
+                .Include(c => c.Customer)
+                .Include(c => c.Service);
+           
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Customers/Details/5
+        // GET: Jobs/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -41,43 +43,49 @@ namespace MowPro.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customer
-                .FirstOrDefaultAsync(m => m.CustomerId == id);
-            if (customer == null)
+            var job = await _context.Job
+                .Include(c => c.Customer) 
+                .Include(c => c.Service)
+
+                .FirstOrDefaultAsync(m => m.JobId == id);
+            if (job == null)
             {
                 return NotFound();
             }
 
-            return View(customer);
+            return View(job);
         }
 
-        // GET: Customers/Create
-        public IActionResult Create()
+        //GET: Jobs/Create
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var viewModel = new JobCreateViewModel()
+            {
+                Customers = await _context.Customer.Where(c => c.UserId == user.Id).ToListAsync(),
+                Services = await _context.Service.Where(c => c.UserId == user.Id).ToListAsync()
+            };
+            return View(viewModel);
         }
 
-        // POST: Customers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Jobs/Create
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CustomerId,FirstName,LastName,StreetAddress,City,Email,PhoneNumber,Preferences,UserId")] Customer customer)
+        public async Task<IActionResult> Create( Job job)
         {
-            //This UserId is the property in Customers. We are ignoring for now because we dont want to add it to a new customer 
-            ModelState.Remove("UserId");
+            ModelState.Remove("JobId");
+
             if (ModelState.IsValid)
             {
-                var user = await _userManager.GetUserAsync(HttpContext.User);
-                customer.UserId = user.Id;
-                _context.Add(customer);
+                _context.Add(job);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(customer);
+            return View(job);
         }
 
-        // GET: Customers/Edit/5
+        // GET: Jobs/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -85,38 +93,39 @@ namespace MowPro.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customer.FindAsync(id);
-            if (customer == null)
+            var job = await _context.Job
+                //.Include(c => c.Customer)
+                //.Include(c => c.Service)
+                .FindAsync(id);
+            if (job == null)
             {
                 return NotFound();
             }
-            return View(customer);
+            return View(job);
         }
 
-        // POST: Customers/Edit/5
+        // POST: Jobs/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CustomerId,FirstName,LastName,StreetAddress,City,Email,PhoneNumber,Preferences,UserId")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("JobId,Date,Notes,Paid,Cost,IsComplete,CustomerId,ServiceId")] Job job)
         {
-            if (id != customer.CustomerId)
+            if (id != job.JobId)
             {
                 return NotFound();
             }
-            ModelState.Remove("UserId");
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                      var user = await _userManager.GetUserAsync(HttpContext.User);
-                      customer.UserId = user.Id;
-                    _context.Update(customer);
+                    _context.Update(job);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomerExists(customer.CustomerId))
+                    if (!JobExists(job.JobId))
                     {
                         return NotFound();
                     }
@@ -127,10 +136,10 @@ namespace MowPro.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(customer);
+            return View(job);
         }
 
-        // GET: Customers/Delete/5
+        // GET: Jobs/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -138,30 +147,30 @@ namespace MowPro.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customer
-                .FirstOrDefaultAsync(m => m.CustomerId == id);
-            if (customer == null)
+            var job = await _context.Job
+                .FirstOrDefaultAsync(m => m.JobId == id);
+            if (job == null)
             {
                 return NotFound();
             }
 
-            return View(customer);
+            return View(job);
         }
 
-        // POST: Customers/Delete/5
+        // POST: Jobs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var customer = await _context.Customer.FindAsync(id);
-            _context.Customer.Remove(customer);
+            var job = await _context.Job.FindAsync(id);
+            _context.Job.Remove(job);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CustomerExists(int id)
+        private bool JobExists(int id)
         {
-            return _context.Customer.Any(e => e.CustomerId == id);
+            return _context.Job.Any(e => e.JobId == id);
         }
     }
 }

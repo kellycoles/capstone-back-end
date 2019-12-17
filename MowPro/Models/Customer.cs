@@ -37,8 +37,6 @@ namespace MowPro.Models
 
         public string Preferences { get; set; }
 
-        [Display(Name = "Past Due")]
-        public bool PastDue { get; set; }
 
         [Required]
         public string UserId { get; set; }

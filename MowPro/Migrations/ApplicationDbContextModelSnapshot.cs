@@ -231,7 +231,7 @@ namespace MowPro.Migrations
                         {
                             Id = "00000000-ffff-ffff-ffff-ffffffffffff",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "19a0ae0b-15ee-40cd-b701-4a3a913ce1aa",
+                            ConcurrencyStamp = "c7707ba4-4a80-4d10-858e-51a160863410",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             FirstName = "admin",
@@ -239,7 +239,7 @@ namespace MowPro.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEI07t4D2InQoQH+bzrI/rSJw68QLyN6sp3sO/9peVW2XkSeib3hedqJ4NT41l3Vwqg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENjCbMDc/sOi/M7fpeUI4hD1j3SMAhPMKF4mp48jGCpdzn0RzTtwgQ0fcx2uMw7Nsw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             TwoFactorEnabled = false,
@@ -267,9 +267,6 @@ namespace MowPro.Migrations
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PastDue")
-                        .HasColumnType("bit");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
@@ -299,7 +296,6 @@ namespace MowPro.Migrations
                             Email = "Joey@gmail.com",
                             FirstName = "Joe",
                             LastName = "Smith",
-                            PastDue = false,
                             PhoneNumber = "615-812-9307",
                             Preferences = "Cut on 4",
                             StreetAddress = "5314 Grassland Drive",
@@ -312,7 +308,6 @@ namespace MowPro.Migrations
                             Email = "Jenny@gmail.com",
                             FirstName = "Jenny",
                             LastName = "Stevens",
-                            PastDue = false,
                             PhoneNumber = "555-867-5309",
                             Preferences = "Cut on 3, don't edge trees",
                             StreetAddress = "4331 Banks Street",
@@ -350,6 +345,10 @@ namespace MowPro.Migrations
 
                     b.HasKey("JobId");
 
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("ServiceId");
+
                     b.ToTable("Job");
 
                     b.HasData(
@@ -358,7 +357,7 @@ namespace MowPro.Migrations
                             JobId = 1,
                             Cost = 50.0,
                             CustomerId = 1,
-                            Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date = new DateTime(2019, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsComplete = true,
                             Notes = "There was a car parked on the grass. I could not mow that area.",
                             Paid = true,
@@ -369,7 +368,7 @@ namespace MowPro.Migrations
                             JobId = 2,
                             Cost = 50.0,
                             CustomerId = 2,
-                            Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date = new DateTime(2019, 6, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsComplete = true,
                             Notes = "The money was not where he said it would be.",
                             Paid = false,
@@ -474,6 +473,21 @@ namespace MowPro.Migrations
                     b.HasOne("MowPro.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MowPro.Models.Job", b =>
+                {
+                    b.HasOne("MowPro.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MowPro.Models.Service", "Service")
+                        .WithMany()
+                        .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
