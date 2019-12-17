@@ -31,9 +31,9 @@ namespace MowPro.Data
 
             //Prevent cascade deletes
             //=========================================
-            //modelBuilder.Entity<Service>()
-            //  .HasMany(o => o.Job)
-            //  .WithOne(l => l.Service)
+            //modelBuilder.Entity<Job>()
+            //  .HasMany(o => o.Service)
+            //  .WithOne(l => l.Job)
             //  .OnDelete(DeleteBehavior.Restrict);
 
   

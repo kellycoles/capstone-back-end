@@ -12,8 +12,8 @@ namespace MowPro.Models
         public int JobId { get; set; }
 
         [Required]
-        [Display(Name = "Date")]
-        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+      
+        [DataType(DataType.Date)]
         public DateTime Date { get; set; }
 
         public string Notes { get; set; }

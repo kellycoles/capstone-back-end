@@ -17,6 +17,7 @@ namespace MowPro.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         public JobsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
@@ -43,6 +44,9 @@ namespace MowPro.Controllers
             }
 
             var job = await _context.Job
+                .Include(c => c.Customer) 
+                .Include(c => c.Service)
+
                 .FirstOrDefaultAsync(m => m.JobId == id);
             if (job == null)
             {
@@ -52,20 +56,26 @@ namespace MowPro.Controllers
             return View(job);
         }
 
-        // GET: Jobs/Create
-        //public Task<IActionResult> Create()
-        //{
-        //    var viewModel = new JobCreateViewModel();
-        //    return View(viewModel);
-        //}
+        //GET: Jobs/Create
+        public async Task<IActionResult> Create()
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var viewModel = new JobCreateViewModel()
+            {
+                Customers = await _context.Customer.Where(c => c.UserId == user.Id).ToListAsync(),
+                Services = await _context.Service.Where(c => c.UserId == user.Id).ToListAsync()
+            };
+            return View(viewModel);
+        }
 
         // POST: Jobs/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("JobId,Date,Notes,Paid,Cost,IsComplete,CustomerId,ServiceId")] Job job)
+        public async Task<IActionResult> Create( Job job)
         {
+            ModelState.Remove("JobId");
+
             if (ModelState.IsValid)
             {
                 _context.Add(job);
@@ -83,7 +93,10 @@ namespace MowPro.Controllers
                 return NotFound();
             }
 
-            var job = await _context.Job.FindAsync(id);
+            var job = await _context.Job
+                //.Include(c => c.Customer)
+                //.Include(c => c.Service)
+                .FindAsync(id);
             if (job == null)
             {
                 return NotFound();
