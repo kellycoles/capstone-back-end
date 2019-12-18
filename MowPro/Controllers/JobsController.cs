@@ -153,9 +153,12 @@ namespace MowPro.Controllers
             {
                 return NotFound();
             }
-
             var job = await _context.Job
-                .FirstOrDefaultAsync(m => m.JobId == id);
+             .Include(c => c.Customer)
+             .Include(c => c.Service)
+
+             .FirstOrDefaultAsync(m => m.JobId == id);
+
             if (job == null)
             {
                 return NotFound();
