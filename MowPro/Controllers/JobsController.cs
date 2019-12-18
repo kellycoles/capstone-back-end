@@ -28,9 +28,10 @@ namespace MowPro.Controllers
         // GET: Jobs
         public async Task<IActionResult> Index()
         {
+            var user = await GetCurrentUserAsync();
             var applicationDbContext = _context.Job
                 .Include(c => c.Customer)
-                .Include(c => c.Service).OrderByDescending(d => d.Date);
+                .Include(c => c.Service).Where(j => j.Customer.UserId == user.Id ).OrderByDescending(d => d.Date);
            
             return View(await applicationDbContext.ToListAsync());
         }
