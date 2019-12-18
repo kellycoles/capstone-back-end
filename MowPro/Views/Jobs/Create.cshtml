@@ -19,12 +19,12 @@
                 <span asp-validation-for="Job.Date" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Job.CustomerId" class="control-label"></label>
+                <label asp-for="Job.Customer" class="control-label"></label>
                 <select asp-for="Job.CustomerId" class="form-control" asp-items="@Model.CustomerOptions"></select>
                 <span asp-validation-for="Job.CustomerId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Job.ServiceId" class="control-label"></label>
+                <label asp-for="Job.Service" class="control-label"></label>
                 <select asp-for="Job.ServiceId" class="form-control" asp-items="@Model.ServiceOptions"></select>
                 <span asp-validation-for="Job.ServiceId" class="text-danger"></span>
             </div>

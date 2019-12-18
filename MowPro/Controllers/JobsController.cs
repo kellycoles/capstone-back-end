@@ -80,6 +80,8 @@ namespace MowPro.Controllers
             {
                 _context.Add(job);
                 await _context.SaveChangesAsync();
+                TempData["Message"] = "Your job was successfully added!";
+
                 return RedirectToAction(nameof(Index));
             }
             return View(job);
@@ -94,13 +96,15 @@ namespace MowPro.Controllers
             }
 
             var job = await _context.Job
-                //.Include(c => c.Customer)
-                //.Include(c => c.Service)
-                .FindAsync(id);
+                .Include(c => c.Customer)
+                .Include(c => c.Service)
+                .FirstOrDefaultAsync(c => c.JobId == id);
             if (job == null)
             {
                 return NotFound();
             }
+            ViewData["ServiceId"] = new SelectList(_context.Service, "ServiceId", "Name",job.ServiceId);
+
             return View(job);
         }
 
@@ -136,6 +140,8 @@ namespace MowPro.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["SelectId"] = new SelectList(_context.Job, "Id", "Name", job.ServiceId);
+
             return View(job);
         }
 

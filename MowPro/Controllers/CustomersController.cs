@@ -72,6 +72,7 @@ namespace MowPro.Controllers
                 customer.UserId = user.Id;
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
+                TempData["Message"] = "Your customer was successfully added!";
                 return RedirectToAction(nameof(Index));
             }
             return View(customer);

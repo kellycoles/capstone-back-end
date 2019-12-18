@@ -70,6 +70,7 @@ namespace MowPro.Controllers
                 service.UserId = user.Id;
                 _context.Add(service);
                 await _context.SaveChangesAsync();
+                TempData["Message"] = "Your service was successfully added!";
                 return RedirectToAction(nameof(Index));
             }
             return View(service);
