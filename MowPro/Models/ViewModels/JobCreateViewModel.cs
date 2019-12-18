@@ -15,7 +15,13 @@ namespace MowPro.Models.ViewModels
         {
             get
             {
-                return Customers?.Select(c => new SelectListItem(c.FullName, c.CustomerId.ToString())).ToList();
+                var customerOptions = Customers?.Select(c => new SelectListItem(c.FullName, c.CustomerId.ToString())).ToList();
+                customerOptions.Insert(0, new SelectListItem()
+                {
+                    Value = string.Empty,
+                    Text = "Select Customer"
+                });
+                return (customerOptions);
             }
         }
         public List<Service> Services { get; set; }
@@ -23,7 +29,13 @@ namespace MowPro.Models.ViewModels
         {
             get
             {
-                return Services?.Select(c => new SelectListItem(c.Name, c.ServiceId.ToString())).ToList();
+                var serviceOptions = Services?.Select(c => new SelectListItem(c.Name, c.ServiceId.ToString())).ToList();
+                serviceOptions.Insert(0, new SelectListItem()
+                  {
+                    Value = string.Empty,
+                    Text = "Select Service"
+                  });
+                return (serviceOptions);
             }
         }
     }

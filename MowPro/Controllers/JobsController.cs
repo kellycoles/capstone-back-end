@@ -28,9 +28,10 @@ namespace MowPro.Controllers
         // GET: Jobs
         public async Task<IActionResult> Index()
         {
+            var user = await GetCurrentUserAsync();
             var applicationDbContext = _context.Job
                 .Include(c => c.Customer)
-                .Include(c => c.Service);
+                .Include(c => c.Service).Where(j => j.Customer.UserId == user.Id ).OrderByDescending(d => d.Date);
            
             return View(await applicationDbContext.ToListAsync());
         }
@@ -42,12 +43,12 @@ namespace MowPro.Controllers
             {
                 return NotFound();
             }
-
             var job = await _context.Job
-                .Include(c => c.Customer) 
-                .Include(c => c.Service)
+             .Include(c => c.Customer)
+             .Include(c => c.Service)
 
-                .FirstOrDefaultAsync(m => m.JobId == id);
+             .FirstOrDefaultAsync(m => m.JobId == id);
+
             if (job == null)
             {
                 return NotFound();
@@ -80,6 +81,8 @@ namespace MowPro.Controllers
             {
                 _context.Add(job);
                 await _context.SaveChangesAsync();
+                TempData["Message"] = "Your job was successfully added!";
+
                 return RedirectToAction(nameof(Index));
             }
             return View(job);
@@ -94,13 +97,15 @@ namespace MowPro.Controllers
             }
 
             var job = await _context.Job
-                //.Include(c => c.Customer)
-                //.Include(c => c.Service)
-                .FindAsync(id);
+                .Include(c => c.Customer)
+                .Include(c => c.Service)
+                .FirstOrDefaultAsync(c => c.JobId == id);
             if (job == null)
             {
                 return NotFound();
             }
+            ViewData["ServiceId"] = new SelectList(_context.Service, "ServiceId", "Name",job.ServiceId);
+
             return View(job);
         }
 
@@ -109,13 +114,13 @@ namespace MowPro.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("JobId,Date,Notes,Paid,Cost,IsComplete,CustomerId,ServiceId")] Job job)
+        public async Task<IActionResult> Edit(int id, Job job)
         {
             if (id != job.JobId)
             {
                 return NotFound();
             }
-
+          
             if (ModelState.IsValid)
             {
                 try
@@ -136,6 +141,8 @@ namespace MowPro.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ServiceId"] = new SelectList(_context.Job, "Id", "Name", job.ServiceId);
+
             return View(job);
         }
 
