@@ -30,7 +30,7 @@ namespace MowPro.Controllers
         {
             var applicationDbContext = _context.Job
                 .Include(c => c.Customer)
-                .Include(c => c.Service);
+                .Include(c => c.Service).OrderByDescending(d => d.Date);
            
             return View(await applicationDbContext.ToListAsync());
         }
@@ -42,12 +42,12 @@ namespace MowPro.Controllers
             {
                 return NotFound();
             }
-
             var job = await _context.Job
-                .Include(c => c.Customer) 
-                .Include(c => c.Service)
+             .Include(c => c.Customer)
+             .Include(c => c.Service)
 
-                .FirstOrDefaultAsync(m => m.JobId == id);
+             .FirstOrDefaultAsync(m => m.JobId == id);
+
             if (job == null)
             {
                 return NotFound();
@@ -113,13 +113,13 @@ namespace MowPro.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("JobId,Date,Notes,Paid,Cost,IsComplete,CustomerId,ServiceId")] Job job)
+        public async Task<IActionResult> Edit(int id, Job job)
         {
             if (id != job.JobId)
             {
                 return NotFound();
             }
-
+          
             if (ModelState.IsValid)
             {
                 try
@@ -140,7 +140,7 @@ namespace MowPro.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SelectId"] = new SelectList(_context.Job, "Id", "Name", job.ServiceId);
+            ViewData["ServiceId"] = new SelectList(_context.Job, "Id", "Name", job.ServiceId);
 
             return View(job);
         }
