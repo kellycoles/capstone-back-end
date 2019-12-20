@@ -35,12 +35,12 @@ namespace MowPro.Controllers
            
             return View(await applicationDbContext.ToListAsync());
         }
-        public async Task<IActionResult> PastJobs()
+        public async Task<IActionResult> ClosedJobs()
         {
             var user = await GetCurrentUserAsync();
             var applicationDbContext = _context.Job
                 .Include(c => c.Customer)
-                .Include(c => c.Service).Where(j => j.Customer.UserId == user.Id && j.IsComplete == true).OrderByDescending(d => d.Date);
+                .Include(c => c.Service).Where(j => j.Customer.UserId == user.Id && j.IsComplete).OrderByDescending(d => d.Date);
 
             return View(await applicationDbContext.ToListAsync());
         }
@@ -105,7 +105,7 @@ namespace MowPro.Controllers
             {
                 return NotFound();
             }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-            //Fix this!!
+       
             var job = await _context.Job
 
                 .Include(c => c.Customer)
@@ -179,6 +179,7 @@ namespace MowPro.Controllers
             return View(job);
         }
 
+  
         // POST: Jobs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

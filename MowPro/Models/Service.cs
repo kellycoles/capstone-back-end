@@ -13,7 +13,8 @@ namespace MowPro.Models
         [Required]
         [Display(Name = "Service")]
         public string Name { get; set; }
-        public bool IsDeleted { get; set; }
+
+        //public bool IsDeleted { get; set; }
         public string Description { get; set; }
         [Required]
         public string UserId { get; set; }
