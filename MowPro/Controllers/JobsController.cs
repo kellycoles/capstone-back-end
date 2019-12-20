@@ -31,8 +31,17 @@ namespace MowPro.Controllers
             var user = await GetCurrentUserAsync();
             var applicationDbContext = _context.Job
                 .Include(c => c.Customer)
-                .Include(c => c.Service).Where(j => j.Customer.UserId == user.Id ).OrderByDescending(d => d.Date);
+                .Include(c => c.Service).Where(j => j.Customer.UserId == user.Id && j.IsComplete == false).OrderByDescending(d => d.Date);
            
+            return View(await applicationDbContext.ToListAsync());
+        }
+        public async Task<IActionResult> PastJobs()
+        {
+            var user = await GetCurrentUserAsync();
+            var applicationDbContext = _context.Job
+                .Include(c => c.Customer)
+                .Include(c => c.Service).Where(j => j.Customer.UserId == user.Id && j.IsComplete == true).OrderByDescending(d => d.Date);
+
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -91,12 +100,14 @@ namespace MowPro.Controllers
         // GET: Jobs/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
             if (id == null)
             {
                 return NotFound();
-            }
-
+            }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+            //Fix this!!
             var job = await _context.Job
+
                 .Include(c => c.Customer)
                 .Include(c => c.Service)
                 .FirstOrDefaultAsync(c => c.JobId == id);
@@ -104,7 +115,8 @@ namespace MowPro.Controllers
             {
                 return NotFound();
             }
-            ViewData["ServiceId"] = new SelectList(_context.Service, "ServiceId", "Name",job.ServiceId);
+            var serviceSelectItems = await _context.Service.Where(s => s.UserId == user.Id).ToListAsync();
+            ViewData["ServiceId"] = new SelectList(serviceSelectItems, "ServiceId", "Name",job.ServiceId);
 
             return View(job);
         }
@@ -153,9 +165,12 @@ namespace MowPro.Controllers
             {
                 return NotFound();
             }
-
             var job = await _context.Job
-                .FirstOrDefaultAsync(m => m.JobId == id);
+             .Include(c => c.Customer)
+             .Include(c => c.Service)
+
+             .FirstOrDefaultAsync(m => m.JobId == id);
+
             if (job == null)
             {
                 return NotFound();

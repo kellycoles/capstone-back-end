@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MowPro.Data;
 
 namespace MowPro.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191219231028_serviceDeleteConstraint")]
+    partial class serviceDeleteConstraint
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -231,7 +233,7 @@ namespace MowPro.Migrations
                         {
                             Id = "00000000-ffff-ffff-ffff-ffffffffffff",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "63daf8b5-b955-4a8b-9849-b2a9d7dee27d",
+                            ConcurrencyStamp = "6ab0b2fb-fb7f-4777-ab61-0a60de364131",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             FirstName = "admin",
@@ -239,7 +241,7 @@ namespace MowPro.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEK0D65giC+HydD64pf4dpxxOFgSlcsgltY8xTNguZ+l7ILRvnsrWZdXQxgpdHrNDpA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEO0ghM350oH2vcQyjVRodXkDPgXogpmBZkNQJt+PnS9p5QJEi1sDKhYk11Kj+Obxw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             TwoFactorEnabled = false,
@@ -488,7 +490,7 @@ namespace MowPro.Migrations
                     b.HasOne("MowPro.Models.Service", "Service")
                         .WithMany()
                         .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 

@@ -15,7 +15,7 @@ namespace MowPro.Data
         public DbSet<Job> Job { get; set; }
         public DbSet<Service> Service { get; set; }
 
-        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -31,12 +31,13 @@ namespace MowPro.Data
 
             //Prevent cascade deletes
             //=========================================
+
             //modelBuilder.Entity<Job>()
-            //  .HasMany(o => o.Service)
-            //  .WithOne(l => l.Job)
+            //  .HasOne(j => j.Service)
+            //  .WithMany()
+            //  .HasForeignKey(j => j.ServiceId)
             //  .OnDelete(DeleteBehavior.Restrict);
 
-  
             //Seed database
             //=========================================
             // Create a new user for Identity Framework
@@ -88,10 +89,10 @@ namespace MowPro.Data
             modelBuilder.Entity<Service>().HasData(
                 new Service()
                 {
-                   ServiceId = 1,
-                   UserId = user.Id,
-                   Name = "Mow",
-                   Description = " Mow includes mowing, weedeating and edging around concrete, flower beds and trees, and blowing the grass off of all concrete."
+                    ServiceId = 1,
+                    UserId = user.Id,
+                    Name = "Mow",
+                    Description = " Mow includes mowing, weedeating and edging around concrete, flower beds and trees, and blowing the grass off of all concrete."
 
                 },
                 new Service()
@@ -127,7 +128,7 @@ namespace MowPro.Data
                     Paid = false,
                     Notes = "The money was not where he said it would be."
                 }
-             ); 
+             );
         }
 
     }
