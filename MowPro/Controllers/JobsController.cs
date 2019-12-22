@@ -31,7 +31,7 @@ namespace MowPro.Controllers
             var user = await GetCurrentUserAsync();
             var applicationDbContext = _context.Job
                 .Include(c => c.Customer)
-                .Include(c => c.Service).Where(j => j.Customer.UserId == user.Id && j.IsComplete == false).OrderByDescending(d => d.Date);
+                .Include(c => c.Service).Where(j => j.Customer.UserId == user.Id && j.IsComplete == false).OrderBy(d => d.Date);
            
             return View(await applicationDbContext.ToListAsync());
         }
@@ -73,7 +73,7 @@ namespace MowPro.Controllers
             var viewModel = new JobCreateViewModel()
             {
                 Customers = await _context.Customer.Where(c => c.UserId == user.Id).ToListAsync(),
-                Services = await _context.Service.Where(c => c.UserId == user.Id).ToListAsync()
+                Services = await _context.Service.Where(s => s.UserId == user.Id && s.IsDeleted ==false).ToListAsync()
             };
             return View(viewModel);
         }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MowPro.Data;
 
 namespace MowPro.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191220211953_isDeleted")]
+    partial class isDeleted
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -231,7 +233,7 @@ namespace MowPro.Migrations
                         {
                             Id = "00000000-ffff-ffff-ffff-ffffffffffff",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f8a3ecd6-c031-4b38-959b-6b3fb065e1fd",
+                            ConcurrencyStamp = "08e58616-83bd-41f5-b492-be2439f5bd0c",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             FirstName = "admin",
@@ -239,7 +241,7 @@ namespace MowPro.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEL5Ol7uxHKpX0CyQxZhxnM8hA+2MU2eoW2pUk4L1jlhEx5zVJbx3hCFELW3UHjZwoQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMU9ykYaIruqco9g57eOFimOD/bXCNpi8x4dpA18qAfIniyWWL+xQs419xPnjO4CjA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             TwoFactorEnabled = false,
