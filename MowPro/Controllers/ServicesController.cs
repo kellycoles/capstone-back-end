@@ -28,7 +28,7 @@ namespace MowPro.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await GetCurrentUserAsync();
-            var services = await _context.Service.Include(p => p.User).Where(p => p.UserId == user.Id).ToListAsync();
+            var services = await _context.Service.Where(s => s.IsDeleted == false).Include(p => p.User).Where(p => p.UserId == user.Id).ToListAsync();
             return View(services);
         }
 
@@ -139,6 +139,19 @@ namespace MowPro.Controllers
 
             var service = await _context.Service
                 .FirstOrDefaultAsync(m => m.ServiceId == id);
+
+   
+            List<Job> jobs = _context.Job.Include(s => s.Service).ToList();
+            List<Job> inComplete = new List<Job>();
+            foreach (var j in jobs)
+            {
+                if (j.IsComplete==false && j.ServiceId == id)
+                {
+                    inComplete.Add(j);
+                    ViewBag.count = inComplete.Count();
+                }
+            }
+
             if (service == null)
             {
                 return NotFound();
@@ -153,11 +166,13 @@ namespace MowPro.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var service = await _context.Service.FindAsync(id);
-            _context.Service.Remove(service);
+            service.IsDeleted = true;
+            _context.Service.Update(service);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+           
         }
-
+        
         private bool ServiceExists(int id)
         {
             return _context.Service.Any(e => e.ServiceId == id);
