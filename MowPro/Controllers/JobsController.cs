@@ -32,7 +32,7 @@ namespace MowPro.Controllers
             var applicationDbContext = _context.Job
                 .Include(c => c.Customer)
                 .Include(c => c.Service).Where(j => j.Customer.UserId == user.Id && j.IsComplete == false).OrderBy(d => d.Date);
-           
+
             return View(await applicationDbContext.ToListAsync());
         }
         public async Task<IActionResult> ClosedJobs()
@@ -73,16 +73,16 @@ namespace MowPro.Controllers
             var viewModel = new JobCreateViewModel()
             {
                 Customers = await _context.Customer.Where(c => c.UserId == user.Id).ToListAsync(),
-                Services = await _context.Service.Where(s => s.UserId == user.Id && s.IsDeleted ==false).ToListAsync()
+                Services = await _context.Service.Where(s => s.UserId == user.Id && s.IsDeleted == false).ToListAsync()
             };
             return View(viewModel);
         }
 
         // POST: Jobs/Create
-       
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( Job job)
+        public async Task<IActionResult> Create(Job job)
         {
             ModelState.Remove("JobId");
 
@@ -96,6 +96,8 @@ namespace MowPro.Controllers
             }
             return View(job);
         }
+//===================================================================================================================
+// nees seperate edit for each edit so save will take you to thr right view
 
         // GET: Jobs/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -104,8 +106,8 @@ namespace MowPro.Controllers
             if (id == null)
             {
                 return NotFound();
-            }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-       
+            }
+
             var job = await _context.Job
 
                 .Include(c => c.Customer)
@@ -116,7 +118,7 @@ namespace MowPro.Controllers
                 return NotFound();
             }
             var serviceSelectItems = await _context.Service.Where(s => s.UserId == user.Id).ToListAsync();
-            ViewData["ServiceId"] = new SelectList(serviceSelectItems, "ServiceId", "Name",job.ServiceId);
+            ViewData["ServiceId"] = new SelectList(serviceSelectItems, "ServiceId", "Name", job.ServiceId);
 
             return View(job);
         }
@@ -132,7 +134,7 @@ namespace MowPro.Controllers
             {
                 return NotFound();
             }
-          
+
             if (ModelState.IsValid)
             {
                 try
@@ -179,7 +181,7 @@ namespace MowPro.Controllers
             return View(job);
         }
 
-  
+
         // POST: Jobs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
