@@ -153,7 +153,14 @@ namespace MowPro.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                if (job.IsComplete == false)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    return RedirectToAction(nameof(ClosedJobs));
+                }
             }
             ViewData["ServiceId"] = new SelectList(_context.Job, "Id", "Name", job.ServiceId);
 
