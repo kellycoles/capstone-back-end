@@ -11,11 +11,14 @@ namespace MowPro.Models
     {
         [Key]
         public int CustomerId { get; set; }
+
         [Required]
+        [MaxLength(20)]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
         [Required]
+        [MaxLength(20)]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
@@ -23,12 +26,15 @@ namespace MowPro.Models
         [Display(Name = "Name")]
         public string FullName => $"{FirstName} {LastName}";
 
+        [MaxLength(50)]
         [Required]
         [Display(Name = "Street Address")]
         public string StreetAddress { get; set; }
 
+        [MaxLength(20)]
         public string City { get; set; }
 
+        [MaxLength(50)]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
