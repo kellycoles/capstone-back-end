@@ -96,8 +96,7 @@ namespace MowPro.Controllers
             }
             return View(job);
         }
-//===================================================================================================================
-// nees seperate edit for each edit so save will take you to thr right view
+
 
         // GET: Jobs/Edit/5
         public async Task<IActionResult> Edit(int? id)
