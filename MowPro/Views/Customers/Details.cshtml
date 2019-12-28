@@ -1,27 +1,16 @@
 ﻿@model MowPro.Models.Customer
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Customer Details";
 }
 
-<h1>Details</h1>
+<h1>Customer Details</h1>
 
 <div>
-    <h4>Customer</h4>
+    <h3>@Html.DisplayFor(model => model.FullName)</h3>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
+   
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.StreetAddress)
         </dt>
@@ -53,6 +42,24 @@
             @Html.DisplayFor(model => model.Preferences)
         </dd>
     </dl>
+    <div class="map">
+        <div class="mapouter"><div class="gmap_canvas"><iframe width="500" height="400" id="gmap_canvas" src="https://maps.google.com/maps?q=5253%20Sallee%20Drive&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe></div>
+        @*<style>
+            .mapouter {
+                position: relative;
+                text-align: right;
+                height: 500px;
+                width: 600px;
+            }
+
+            .gmap_canvas {
+                overflow: hidden;
+                background: none !important;
+                height: 500px;
+                width: 600px;
+            }
+        </style>*@</div>
+    </div>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.CustomerId">Edit</a> |
