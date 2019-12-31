@@ -2,15 +2,17 @@
     ViewData["Title"] = "Home Page";
 }
 <style>
+
     body {
-        background-image: url(../images/grass.jpg);
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover
+        background: linear-gradient(rgba(0,0,0,0.3),
+        rgba(0,0,0,0.3)),
+        url(../images/grass.jpg) no-repeat center;
+      
+        background-size: cover;
     }
 
     .home-header {
-        padding-top: 220px;
+        padding-top: 150px;
     }
 
     h1 {
@@ -24,15 +26,19 @@
 
     .title {
         color: white;
-        font-size: 1.625em; /* 26px/16px */
+        font-size: 1.625em;
         letter-spacing: .065em;
         font-weight: 200;
     }
- 
-</style>
+    footer{
+        border:none;
 
-<div class="text-center home-header">
-    <h1>MowPro</h1>
-    <p class="title">Lawn Care Management</p>
+    }
+</style>
+<div class="overlay">
+    <div class="text-center home-header">
+        <h1>MowPro</h1>
+        <p class="title">Lawn Care Management</p>
+    </div>
 </div>
 

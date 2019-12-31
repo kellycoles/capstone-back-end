@@ -11,14 +11,13 @@
 {
     if (ViewBag.count == 1)
     {
-     
         <p>There is @ViewBag.count job associated with this service</p>
     }
     else
     {
         <p>There are @ViewBag.count open jobs associated with this service</p>
-    }
 
+    }
 }
 <div>
     <h4>Service</h4>
@@ -31,11 +30,11 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Description)
-            </dd>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
 
 
     </dl>
@@ -46,3 +45,5 @@
         <a asp-action="Index">Back to List</a>
     </form>
 </div>
+
+
