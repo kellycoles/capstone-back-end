@@ -28,7 +28,7 @@ namespace MowPro.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await GetCurrentUserAsync();
-            var services = await _context.Service.Where(s => s.IsDeleted == false).Include(p => p.User).Where(p => p.UserId == user.Id).ToListAsync();
+            var services = await _context.Service.Where(s => s.IsDeleted == false).Include(p => p.User).Where(p => p.UserId == user.Id).OrderBy(n => n.Name).ToListAsync();
             return View(services);
         }
 
