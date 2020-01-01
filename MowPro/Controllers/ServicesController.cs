@@ -25,11 +25,16 @@ namespace MowPro.Controllers
         }
         [Authorize]
         // GET: Services
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
+            ViewData["CurrentFilter"] = searchString;
             var user = await GetCurrentUserAsync();
-            var services = await _context.Service.Where(s => s.IsDeleted == false).Include(p => p.User).Where(p => p.UserId == user.Id).OrderBy(n => n.Name).ToListAsync();
-            return View(services);
+            var services =_context.Service.OrderBy(n => n.Name).Where(s => s.IsDeleted == false).Include(p => p.User).Where(p => p.UserId == user.Id);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+               services = _context.Service.OrderBy(n => n.Name).Where(s => s.IsDeleted == false).Include(p => p.User).Where(p => p.UserId == user.Id).Where(n => n.Name.Contains(searchString));
+            }  
+            return View(await services.ToListAsync());
         }
 
         // GET: Services/Details/5

@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<MowPro.Models.Customer>
-
+<style>
+    body {
+        background: #f2f2f2;
+    }
+</style>
 @{
     ViewData["Title"] = "Index";
 }
@@ -24,7 +28,7 @@
 </form>
 
 <table class="table table-hover">
-    <thead>
+    <thead class="thead-dark">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.FullName)
