@@ -25,11 +25,19 @@ namespace MowPro.Controllers
 
         // GET: Customers
         [Authorize]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
+            ViewData["CurrentFilter"] = searchString;
+
             var user = await GetCurrentUserAsync();
-            var customers = await _context.Customer.OrderBy(c => c.LastName).Include(p => p.User).Where(p => p.UserId == user.Id).ToListAsync();
-            return View(customers);
+            var customers = _context.Customer.OrderBy(c => c.LastName).Include(p => p.User).Where(p => p.UserId == user.Id);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                customers = _context.Customer.OrderBy(c => c.LastName).Include(p => p.User).Where(p => p.UserId == user.Id).Where
+                    (c => c.FirstName.Contains(searchString) || c.LastName.Contains(searchString));
+
+            }
+            return View(await customers.ToListAsync());
 
         }
 

@@ -4,8 +4,12 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Services</h1>
 
+<h1>Services</h1>
+@if (TempData["Message"] != null)
+{
+    <p class="alert-success"> @TempData["Message"] </p>
+}
 <p>
     <a asp-action="Create">Create New</a>
 </p>
