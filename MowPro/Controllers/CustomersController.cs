@@ -35,8 +35,8 @@ namespace MowPro.Controllers
             {
                 customers = _context.Customer.OrderBy(c => c.LastName).Include(p => p.User).Where(p => p.UserId == user.Id).Where
                     (c => c.FirstName.Contains(searchString) || c.LastName.Contains(searchString));
-
             }
+            
             return View(await customers.ToListAsync());
 
         }
