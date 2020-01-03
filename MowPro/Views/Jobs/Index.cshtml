@@ -5,7 +5,15 @@
 }
 
 <h1>Open Jobs</h1>
-
+@if (TempData["Message"] != null)
+{
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <p class="lead"> @TempData["Message"] </p>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+}
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -91,5 +99,5 @@
 }
 else
 {
-    <p class="alert-info">There are no records containing: @ViewData["currentFilter"]</p>
+    <p class="alert-info lead">There are no records containing: @ViewData["currentFilter"]</p>
 }

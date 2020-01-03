@@ -6,12 +6,12 @@
 
 <h1>Closed Jobs</h1>
 @* search box *@
-<form asp-action="Index" method="get">
+<form asp-action="ClosedJobs" method="get">
     <div class="form-actions no-color">
         <p>
             <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
             <input type="submit" value="Search" /> |
-            <a asp-action="Index">Back to Full List</a>
+            <a asp-action="ClosedJobs">Back to Full List</a>
         </p>
     </div>
 </form>
@@ -81,5 +81,5 @@
 }
 else
 {
-    <p class="alert-info">There are no records containing: @ViewData["currentFilter"]</p>
+    <p class="alert-info lead">There are no records containing: @ViewData["currentFilter"]</p>
 }

@@ -40,6 +40,7 @@ namespace MowPro.Controllers
                .Include(c => c.Customer)
                .Include(c => c.Service).OrderBy(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete == false)
                .Where(c => c.Customer.FirstName.Contains(searchString) || c.Customer.LastName.Contains(searchString) || c.Service.Name.Contains(searchString) || c.Date.ToString().Contains(searchString));
+
             }//=========================================================================================================================================
                 return View(await applicationDbContext.ToListAsync());
         }
@@ -156,6 +157,7 @@ namespace MowPro.Controllers
                 {
                     _context.Update(job);
                     await _context.SaveChangesAsync();
+                    TempData["Message"] = "Your job was successfully edited!";
                 }
                 catch (DbUpdateConcurrencyException)
                 {

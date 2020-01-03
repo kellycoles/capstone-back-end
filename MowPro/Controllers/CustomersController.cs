@@ -123,6 +123,7 @@ namespace MowPro.Controllers
                       customer.UserId = user.Id;
                     _context.Update(customer);
                     await _context.SaveChangesAsync();
+                    TempData["Message"] = "Your customer was successfully edited!";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
