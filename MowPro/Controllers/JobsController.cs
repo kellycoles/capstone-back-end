@@ -35,20 +35,29 @@ namespace MowPro.Controllers
                 .Include(c => c.Service).OrderBy(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete == false);
             if (!String.IsNullOrEmpty(searchString))
             {
-                //======================================================================
+                //====================================================================================================================================
                 applicationDbContext = _context.Job
-               .Include(c => c.Customer).Where(c => c.Customer.FirstName.Contains(searchString) || c.Customer.LastName.Contains(searchString))
-               .Include(c => c.Service).OrderBy(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete == false);
-            }
+               .Include(c => c.Customer)
+               .Include(c => c.Service).OrderBy(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete == false)
+               .Where(c => c.Customer.FirstName.Contains(searchString) || c.Customer.LastName.Contains(searchString) || c.Service.Name.Contains(searchString) || c.Date.ToString().Contains(searchString));
+            }//=========================================================================================================================================
                 return View(await applicationDbContext.ToListAsync());
         }
-        public async Task<IActionResult> ClosedJobs()
+        public async Task<IActionResult> ClosedJobs(string searchString)
         {
+            ViewData["CurrentFilter"] = searchString;
             var user = await GetCurrentUserAsync();
             var applicationDbContext = _context.Job
                 .Include(c => c.Customer)
-                .Include(c => c.Service).Where(j => j.Customer.UserId == user.Id && j.IsComplete).OrderByDescending(d => d.Date);
+                .Include(c => c.Service).OrderByDescending(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                applicationDbContext = _context.Job
+                                .Include(c => c.Customer)
+                                .Include(c => c.Service).OrderByDescending(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete)
+                                .Where(c => c.Customer.FirstName.Contains(searchString) || c.Customer.LastName.Contains(searchString) || c.Service.Name.Contains(searchString) || c.Date.ToString().Contains(searchString));
 
+            }
             return View(await applicationDbContext.ToListAsync());
         }
 
