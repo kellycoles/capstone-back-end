@@ -1,33 +1,20 @@
 ﻿@model IEnumerable<MowPro.Models.Job>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Open Jobs";
 }
 
-<h1>Open Jobs</h1>
-@if (TempData["Message"] != null)
-{
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-    <p class="lead"> @TempData["Message"] </p>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-}
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h1>Open Jobs: Payment Pending</h1>
 @* search box *@
-<form asp-action="Index" method="get">
+<form asp-action="OpenJobs" method="get">
     <div class="form-actions no-color">
         <p>
             <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
             <input type="submit" value="Search" /> |
-            <a asp-action="Index">Back to Full List</a>
+            <a asp-action="OpenJobs">Back to Full List</a>
         </p>
     </div>
 </form>
-
 @* if no records match searchString, don't show table header. *@
 @if (Model.Count() != 0)
 {
@@ -53,9 +40,8 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Paid)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Customer.StreetAddress)
-                </th>
+
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -66,16 +52,16 @@
                         @Html.DisplayFor(modelItem => item.Date)
                     </td>
                     <td>
-                        <a asp-action="Details" asp-controller="Customers" asp-route-id="@item.CustomerId">@Html.DisplayFor(modelItem => item.Customer.FullName)</a>
+                        @Html.DisplayFor(modelItem => item.Customer.FullName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Service.Name)
                     </td>
 
+
                     <td>
                         @Html.DisplayFor(modelItem => item.Cost)
                     </td>
-                 
                     <td>
                         @Html.DisplayFor(modelItem => item.IsComplete)
                     </td>
@@ -83,9 +69,6 @@
                         @Html.DisplayFor(modelItem => item.Paid)
                     </td>
 
-                    <td>
-                        <a href="@($"https://maps.google.com/maps?q={item.Customer.StreetAddress}")" target="_blank"> @Html.DisplayFor(modelItem => item.Customer.StreetAddress)</a>
-                    </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.JobId">Edit</a> |
                         <a asp-action="Details" asp-route-id="@item.JobId">Details</a> |
@@ -100,3 +83,5 @@ else
 {
     <p class="alert-info lead">There are no records containing: @ViewData["currentFilter"]</p>
 }
+
+
