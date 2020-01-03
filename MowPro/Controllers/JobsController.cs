@@ -68,12 +68,12 @@ namespace MowPro.Controllers
             var user = await GetCurrentUserAsync();
             var applicationDbContext = _context.Job
                 .Include(c => c.Customer)
-                .Include(c => c.Service).OrderByDescending(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete && j.Paid == false);
+                .Include(c => c.Service).OrderBy(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete && j.Paid == false);
             if (!String.IsNullOrEmpty(searchString))
             {
                 applicationDbContext = _context.Job
                                 .Include(c => c.Customer)
-                                .Include(c => c.Service).OrderByDescending(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete && j.Paid == false)
+                                .Include(c => c.Service).OrderBy(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete && j.Paid == false)
                                 .Where(c => c.Customer.FirstName.Contains(searchString) || c.Customer.LastName.Contains(searchString) || c.Service.Name.Contains(searchString) || c.Date.ToString().Contains(searchString));
 
             }
@@ -175,7 +175,6 @@ namespace MowPro.Controllers
                 {
                     _context.Update(job);
                     await _context.SaveChangesAsync();
-                    TempData["Message"] = "Your job was successfully edited!";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
