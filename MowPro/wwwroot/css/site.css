@@ -64,6 +64,9 @@ body {
   margin-bottom: 60px;
 }
 .footer {
+    /*height: 50px;
+    background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url(../images/footerGrass3.jpg);
+    background-size: 100% 100%;*/
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -71,5 +74,5 @@ body {
     line-height: 60px; /* Vertically center the text there */
     /*background-color: rgba(79,128,36,0.5)*/
 }
-/*end bootstrap css*/
+/*end bootstrap css*/ 
 /*====================================================================*/

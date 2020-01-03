@@ -26,14 +26,21 @@ namespace MowPro.Controllers
         }
         [Authorize]
         // GET: Jobs
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
+            ViewData["CurrentFilter"] = searchString;
             var user = await GetCurrentUserAsync();
             var applicationDbContext = _context.Job
                 .Include(c => c.Customer)
-                .Include(c => c.Service).Where(j => j.Customer.UserId == user.Id && j.IsComplete == false).OrderBy(d => d.Date);
-
-            return View(await applicationDbContext.ToListAsync());
+                .Include(c => c.Service).OrderBy(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete == false);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                //======================================================================
+                applicationDbContext = _context.Job
+               .Include(c => c.Customer).Where(c => c.Customer.FirstName.Contains(searchString) || c.Customer.LastName.Contains(searchString))
+               .Include(c => c.Service).OrderBy(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete == false);
+            }
+                return View(await applicationDbContext.ToListAsync());
         }
         public async Task<IActionResult> ClosedJobs()
         {
