@@ -5,6 +5,16 @@
 }
 
 <h1>Open Jobs: Payment Pending</h1>
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <p class="lead"> @TempData["Message"] </p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
 @* search box *@
 <form asp-action="OpenJobs" method="get">
     <div class="form-actions no-color">

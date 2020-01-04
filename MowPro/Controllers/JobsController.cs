@@ -175,6 +175,9 @@ namespace MowPro.Controllers
                 {
                     _context.Update(job);
                     await _context.SaveChangesAsync();
+                    TempData["Message"] = "Your job was successfully edited!";
+
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
