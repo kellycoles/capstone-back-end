@@ -7,12 +7,12 @@
 <h1>Upcoming Jobs</h1>
 @if (TempData["Message"] != null)
 {
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-    <p class="lead"> @TempData["Message"] </p>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <p class="lead"> @TempData["Message"] </p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 }
 <p>
     <a asp-action="Create">Create New</a>
@@ -31,72 +31,87 @@
 @* if no records match searchString, don't show table header. *@
 @if (Model.Count() != 0)
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Date)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Customer)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Service)
-                </th>
+    @foreach (var item in Model)
+    { 
+            <div class="card-deck">
+                <div class="card">
+                    <iframe class="card-img-top" @*width="500" height="400"*@ src="@($"https://maps.google.com/maps?q={item.Customer.StreetAddress}&t=&z=13&ie=UTF8&iwloc=&output=embed")"></iframe>
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">Last updated 3 mins ago</small>
+                    </div>
+                </div>
+            </div>
+            @*<table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Date)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Customer)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Service)
+                            </th>
 
-                <th>
-                    @Html.DisplayNameFor(model => model.Cost)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IsComplete)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Paid)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Customer.StreetAddress)
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Date)
-                    </td>
-                    <td>
-                        <a asp-action="Details" asp-controller="Customers" asp-route-id="@item.CustomerId">@Html.DisplayFor(modelItem => item.Customer.FullName)</a>
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Service.Name)
-                    </td>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Cost)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IsComplete)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Paid)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Customer.StreetAddress)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Date)
+                                </td>
+                                <td>
+                                    <a asp-action="Details" asp-controller="Customers" asp-route-id="@item.CustomerId">@Html.DisplayFor(modelItem => item.Customer.FullName)</a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Service.Name)
+                                </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Cost)
-                    </td>
-                 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IsComplete)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Paid)
-                    </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Cost)
+                                </td>
 
-                    <td>
-                        <a href="@($"https://maps.google.com/maps?q={item.Customer.StreetAddress}")" target="_blank"> @Html.DisplayFor(modelItem => item.Customer.StreetAddress)</a>
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.JobId">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.JobId">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.JobId">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IsComplete)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Paid)
+                                </td>
+
+                                <td>
+                                    <a href="@($"https://maps.google.com/maps?q={item.Customer.StreetAddress}")" target="_blank"> @Html.DisplayFor(modelItem => item.Customer.StreetAddress)</a>
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.JobId">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@item.JobId">Details</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.JobId">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>*@
+     }
 }
 else
 {
-    <p class="alert-info lead">There are no records containing: @ViewData["currentFilter"]</p>
+<p class="alert-info lead">There are no records containing: @ViewData["currentFilter"]</p>
 }
