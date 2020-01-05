@@ -32,86 +32,111 @@
 @if (Model.Count() != 0)
 {
     @foreach (var item in Model)
-    { 
-            <div class="card-deck">
-                <div class="card">
-                    <iframe class="card-img-top" @*width="500" height="400"*@ src="@($"https://maps.google.com/maps?q={item.Customer.StreetAddress}&t=&z=13&ie=UTF8&iwloc=&output=embed")"></iframe>
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">Last updated 3 mins ago</small>
+    {<div class="row">
+            <div class="col-sm-4">
+                <div class="card-deck">
+                    <div class="card ">
+                        <iframe class="card-img-top" src="@($"https://maps.google.com/maps?q={item.Customer.StreetAddress}&t=&z=13&ie=UTF8&iwloc=&output=embed")"></iframe>
+                        <div class="card-body">
+                            <h5 class="card-title"> @Html.DisplayFor(modelItem => item.Service.Name)</h5>
+                            <dl class="row">
+                                <dt class="col-sm-4 card-text">@Html.DisplayNameFor(model => model.Date):</dt>
+                                <dd class="col-sm-8 card-text">@Html.DisplayFor(modelItem => item.Date)</dd>
+                                <dt class="col-sm-4 card-text">@Html.DisplayNameFor(model => model.Customer):</dt>
+                                <dd class="col-sm-8 card-text"><a asp-action="Details" asp-controller="Customers" asp-route-id="@item.CustomerId">@Html.DisplayFor(modelItem => item.Customer.FullName)</a></dd>
+                                <dt class="col-sm-4 card-text">@Html.DisplayNameFor(model => model.Cost):</dt>
+                                <dd class="col-sm-8 card-text">@Html.DisplayFor(modelItem => item.Cost)</dd>
+                                <dt class="col-sm-4 card-text">@Html.DisplayNameFor(model => model.IsComplete):</dt>
+                                <dd class="col-sm-8 card-text">@Html.CheckBox("IsComplete", false)</dd>
+                                <dt class="col-sm-4 card-text">@Html.DisplayNameFor(model => model.Paid):</dt>
+                                <dd class="col-sm-8 card-text">@Html.CheckBox("Paid", false)</dd>
+                            </dl>
+                            <form asp-action="Edit" asp-controller="Jobs">
+                                <input type="hidden" asp-for="@item.JobId">
+                                <input type="hidden" asp-for="@item.CustomerId">
+                                <input type="submit" value="Submit Job" class="btn btn-primary" />
+                            </form>
+                        </div>
+                        <div class="card-footer  text-center">
+                            <small class="text-muted">
+                                <a asp-action="Edit" asp-route-id="@item.JobId">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.JobId">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.JobId">Delete</a>
+                            </small>
+                        </div>
                     </div>
                 </div>
             </div>
-            @*<table class="table">
-                    <thead>
+        </div>
+
+
+        @*<table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Date)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Customer)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Service)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.Cost)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IsComplete)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Paid)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Customer.StreetAddress)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
                         <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Date)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Customer)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Service)
-                            </th>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Date)
+                            </td>
+                            <td>
+                                <a asp-action="Details" asp-controller="Customers" asp-route-id="@item.CustomerId">@Html.DisplayFor(modelItem => item.Customer.FullName)</a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Service.Name)
+                            </td>
 
-                            <th>
-                                @Html.DisplayNameFor(model => model.Cost)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.IsComplete)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Paid)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Customer.StreetAddress)
-                            </th>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Cost)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IsComplete)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Paid)
+                            </td>
+
+                            <td>
+                                <a href="@($"https://maps.google.com/maps?q={item.Customer.StreetAddress}")" target="_blank"> @Html.DisplayFor(modelItem => item.Customer.StreetAddress)</a>
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.JobId">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.JobId">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.JobId">Delete</a>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Date)
-                                </td>
-                                <td>
-                                    <a asp-action="Details" asp-controller="Customers" asp-route-id="@item.CustomerId">@Html.DisplayFor(modelItem => item.Customer.FullName)</a>
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Service.Name)
-                                </td>
-
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Cost)
-                                </td>
-
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.IsComplete)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Paid)
-                                </td>
-
-                                <td>
-                                    <a href="@($"https://maps.google.com/maps?q={item.Customer.StreetAddress}")" target="_blank"> @Html.DisplayFor(modelItem => item.Customer.StreetAddress)</a>
-                                </td>
-                                <td>
-                                    <a asp-action="Edit" asp-route-id="@item.JobId">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@item.JobId">Details</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.JobId">Delete</a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>*@
-     }
+                    }
+                </tbody>
+            </table>*@
+    }
 }
 else
 {
-<p class="alert-info lead">There are no records containing: @ViewData["currentFilter"]</p>
+    <p class="alert-info lead">There are no records containing: @ViewData["currentFilter"]</p>
 }
