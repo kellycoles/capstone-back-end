@@ -1,10 +1,5 @@
 ﻿@model IEnumerable<MowPro.Models.Customer>
-<style>
-    body {
-           background: rgba(0,0,0,0.2)
-       
-    }
-</style>
+
 @{
     ViewData["Title"] = "Index";
 }
@@ -13,12 +8,12 @@
 @* alert user that record was successfully created *@
 @if (TempData["Message"] != null)
 {
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-    <p class="lead"> @TempData["Message"] </p>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <p class="lead"> @TempData["Message"] </p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 }
 <p>
     <a asp-action="Create">Create New</a>
@@ -40,7 +35,6 @@
 {
     <table class="table table-hover">
         <thead class="thead-dark">
-
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.FullName)
@@ -53,9 +47,8 @@
                 <th></th>
             </tr>
         </thead>
+
         <tbody>
-
-
             @foreach (var item in Model)
             {
                 <tr>

@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<MowPro.Models.Job>
 
 @{
-    ViewData["Title"] = "Closed Jobs";
+    ViewData["Title"] = "Open Jobs";
 }
 
-<h1>Closed Jobs</h1>
+<h1>Open Jobs: Payment Pending</h1>
 @if (TempData["Message"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -16,12 +16,12 @@
 }
 
 @* search box *@
-<form asp-action="ClosedJobs" method="get">
+<form asp-action="OpenJobs" method="get">
     <div class="form-actions no-color">
         <p>
             <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
             <input type="submit" value="Search" /> |
-            <a asp-action="ClosedJobs">Back to Full List</a>
+            <a asp-action="OpenJobs">Back to Full List</a>
         </p>
     </div>
 </form>
@@ -50,41 +50,41 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Paid)
                 </th>
-              
+
                 <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Customer.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Service.Name)
-                </td>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Customer.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Service.Name)
+                    </td>
 
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cost)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsComplete)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Paid)
-                </td>
-               
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.JobId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.JobId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.JobId">Delete</a>
-                </td>
-            </tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cost)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsComplete)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Paid)
+                    </td>
+
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.JobId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.JobId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.JobId">Delete</a>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
@@ -93,3 +93,5 @@ else
 {
     <p class="alert-info lead">There are no records containing: @ViewData["currentFilter"]</p>
 }
+
+
