@@ -194,9 +194,14 @@ namespace MowPro.Controllers
                 {
                     return RedirectToAction(nameof(Index));
                 }
-                else
+                else if (job.IsComplete == false && job.Paid == true)
                 {
                     return RedirectToAction(nameof(ClosedJobs));
+                }
+
+                else
+                {
+                    return RedirectToAction(nameof(OpenJobs));
                 }
             }
             ViewData["ServiceId"] = new SelectList(_context.Job, "Id", "Name", job.ServiceId);

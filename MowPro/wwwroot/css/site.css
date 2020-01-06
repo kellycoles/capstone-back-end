@@ -67,9 +67,6 @@ body {
 }
 
 .footer {
-    /*height: 50px;
-    background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url(../images/footerGrass2.jpg);
-    background-size: 100% 100%;*/
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -77,12 +74,21 @@ body {
     line-height: 60px; /* Vertically center the text there */
     /*background-color: rgba(79,128,36,0.5)*/
 }
-/*end bootstrap css*/
-/*====================================================================*/
-.footer div {
-    color: white;
+    /*end bootstrap css*/
+    /*====================================================================*/
+    /*jobs index*/
+    /*.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
 }
 
-.footer a {
-    color: #89c058;
-}
+.card-position {
+    display: inline-block;
+    font-size: 1.2em;
+    flex-basis: 30%;
+    margin-bottom: 25px;
+    box-shadow: 0 5px 10px -5px rgba(0, 0, 0, 0.5);
+}*/
+
+
