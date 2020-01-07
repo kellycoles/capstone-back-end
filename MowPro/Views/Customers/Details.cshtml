@@ -26,8 +26,8 @@
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Email)
         </dt>
-        <dd class="col-sm-10" >
-             @Html.DisplayFor(model => model.Email) 
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.PhoneNumber)
@@ -43,10 +43,10 @@
         </dd>
     </dl>
     <div>
-        <iframe width="500" height="400"  src="@($"https://maps.google.com/maps?q={Model.StreetAddress}&t=&z=13&ie=UTF8&iwloc=&output=embed")"></iframe>
-        </div>
+        <iframe width="300" height="200" style="border:none" src="@($"https://maps.google.com/maps?q={Model.StreetAddress}&t=&z=13&ie=UTF8&iwloc=&output=embed")"></iframe>
     </div>
+</div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.CustomerId">Edit</a> |
-        <a href="javascript:history.back()">Back to List</a>
+    <a href="javascript:history.back()">Back to List</a>
 </div>

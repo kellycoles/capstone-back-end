@@ -28,7 +28,7 @@
                 <select asp-for="Job.ServiceId" class="form-control" asp-items="@Model.ServiceOptions"></select>
                 <span asp-validation-for="Job.ServiceId" class="text-danger"></span>
             </div>
-            <p><a asp-action="Create" asp-controller="Services">Add a Service</a></p>
+           
             <div class="form-group">
                 <label asp-for="Job.Notes" class="control-label"></label>
                 <textarea asp-for="Job.Notes" class="form-control"></textarea>

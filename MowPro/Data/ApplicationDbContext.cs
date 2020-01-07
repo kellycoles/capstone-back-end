@@ -28,15 +28,7 @@ namespace MowPro.Data
             modelBuilder.Entity<Job>().ToTable("Job");
             modelBuilder.Entity<Service>().ToTable("Service");
 
-
-            //Prevent cascade deletes
-            //=========================================
-
-            //modelBuilder.Entity<Job>()
-            //  .HasOne(j => j.Service)
-            //  .WithMany()
-            //  .HasForeignKey(j => j.ServiceId)
-            //  .OnDelete(DeleteBehavior.Restrict);
+   
 
             //Seed database
             //=========================================
