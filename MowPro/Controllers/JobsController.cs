@@ -35,13 +35,12 @@ namespace MowPro.Controllers
                 .Include(c => c.Service).OrderBy(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete == false);
             if (!String.IsNullOrEmpty(searchString))
             {
-                //====================================================================================================================================
                 applicationDbContext = _context.Job
                .Include(c => c.Customer)
                .Include(c => c.Service).OrderBy(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete == false)
-               .Where(c => c.Customer.FirstName.Contains(searchString) || c.Customer.LastName.Contains(searchString) || c.Service.Name.Contains(searchString) || c.Date.ToString().Contains(searchString));
+               .Where(c => c.Customer.FirstName.Contains(searchString) || c.Customer.LastName.Contains(searchString) || c.Service.Name.Contains(searchString));
 
-            }//=========================================================================================================================================
+            }
                 return View(await applicationDbContext.ToListAsync());
         }
         public async Task<IActionResult> ClosedJobs(string searchString)
@@ -56,7 +55,7 @@ namespace MowPro.Controllers
                 applicationDbContext = _context.Job
                                 .Include(c => c.Customer)
                                 .Include(c => c.Service).OrderByDescending(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete && j.Paid == true)
-                                .Where(c => c.Customer.FirstName.Contains(searchString) || c.Customer.LastName.Contains(searchString) || c.Service.Name.Contains(searchString) || c.Date.ToString().Contains(searchString));
+                                .Where(c => c.Customer.FirstName.Contains(searchString) || c.Customer.LastName.Contains(searchString));
 
             }
             return View(await applicationDbContext.ToListAsync());
@@ -71,10 +70,11 @@ namespace MowPro.Controllers
                 .Include(c => c.Service).OrderBy(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete && j.Paid == false);
             if (!String.IsNullOrEmpty(searchString))
             {
+                var DbF = Microsoft.EntityFrameworkCore.EF.Functions;
                 applicationDbContext = _context.Job
                                 .Include(c => c.Customer)
                                 .Include(c => c.Service).OrderBy(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete && j.Paid == false)
-                                .Where(c => c.Customer.FirstName.Contains(searchString) || c.Customer.LastName.Contains(searchString) || c.Service.Name.Contains(searchString) || c.Date.ToString().Contains(searchString));
+                                .Where(c => c.Customer.FirstName.Contains(searchString) || c.Customer.LastName.Contains(searchString));
 
             }
             return View(await applicationDbContext.ToListAsync());
@@ -194,7 +194,7 @@ namespace MowPro.Controllers
                 {
                     return RedirectToAction(nameof(Index));
                 }
-                else if (job.IsComplete == false && job.Paid == true)
+                else if (job.IsComplete == true && job.Paid == true)
                 {
                     return RedirectToAction(nameof(ClosedJobs));
                 }
@@ -203,6 +203,70 @@ namespace MowPro.Controllers
                 {
                     return RedirectToAction(nameof(OpenJobs));
                 }
+            }
+            ViewData["ServiceId"] = new SelectList(_context.Job, "Id", "Name", job.ServiceId);
+
+            return View(job);
+        }
+    
+        //Get: Jobs/CompleteJob/5
+        public async Task<IActionResult> CompleteJob(int? id)
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var job = await _context.Job
+
+                .Include(c => c.Customer)
+                .Include(c => c.Service)
+                .FirstOrDefaultAsync(c => c.JobId == id);
+            if (job == null)
+            {
+                return NotFound();
+            }
+            var serviceSelectItems = await _context.Service.Where(s => s.UserId == user.Id).ToListAsync();
+            ViewData["ServiceId"] = new SelectList(serviceSelectItems, "ServiceId", "Name", job.ServiceId);
+
+            return View(job);
+        }
+
+        // POST: Jobs/CompleteJob/5
+    
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult>CompleteJob(int id, Job job)
+        {
+            var user = await GetCurrentUserAsync();
+            if (id != job.JobId)
+            {
+                return NotFound();
+            }
+           
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(job);
+                    await _context.SaveChangesAsync();
+                    TempData["Message"] = "Your job has been marked complete!";
+
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!JobExists(job.JobId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+        
+                return RedirectToAction(nameof(Index));
             }
             ViewData["ServiceId"] = new SelectList(_context.Job, "Id", "Name", job.ServiceId);
 

@@ -15,14 +15,15 @@ namespace MowPro.Models
         public DateTime Date { get; set; }
 
         public string Notes { get; set; }
-   
 
+        [Display(Name = "Payment Received")]
         public bool Paid { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:C}")]
         public double Cost { get; set; }
 
-        [Display(Name = "Complete")]
+        [Display(Name = "Job Complete")]
+
         public bool IsComplete { get; set; }
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }

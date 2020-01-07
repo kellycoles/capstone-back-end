@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Upcoming Jobs</h1>
+<h1>Current Jobs</h1>
 @if (TempData["Message"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -36,7 +36,7 @@
         @foreach (var item in Model)
         {
 
-            <div class="card  mb-4" style="min-width: 18rem; max-width:30.5%;">
+            <div class="card  mb-4 ml-auto mr-auto"  style="min-width: 18rem; max-width:30.5%;">
                 <iframe class="card-img-top" style="border:none" src="@($"https://maps.google.com/maps?q={item.Customer.StreetAddress}&t=&z=13&ie=UTF8&iwloc=&output=embed")"></iframe>
                 <div class="card-body">
                     <h5 class="card-title"> @Html.DisplayFor(modelItem => item.Service.Name)</h5>
@@ -50,11 +50,8 @@
                         <dt class="col-sm-6 card-text">@Html.DisplayNameFor(model => model.Customer.Preferences):</dt>
                         <dd class="col-sm-6 card-text">@Html.DisplayFor(modelItem => item.Customer.Preferences)</dd>
                     </dl>
-                    <form asp-action="Edit" asp-controller="Jobs">
-                        <input type="hidden" asp-for="@item.JobId">
-                        <input type="hidden" asp-for="@item.CustomerId">
-                        <input type="submit" value="Submit Job" class="btn btn-sm btn-primary" />
-                    </form>
+                    <a asp-action="CompleteJob" asp-route-id="@item.JobId" class="btn btn-sm btn-primary">Complete Job</a>
+                 
                 </div>
                 <div class="card-footer  text-center">
                     <small class="text-muted">

@@ -1,0 +1,40 @@
+﻿@model MowPro.Models.Job;
+@{
+    ViewData["Title"] = "Complete Job";
+}
+
+<h1>Complete Job</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CompleteJob">
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsComplete" /> @Html.DisplayNameFor(model => model.IsComplete)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Paid" /> @Html.DisplayNameFor(model => model.Paid)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Notes" class="control-label"></label>
+                <textarea asp-for="Notes" class="form-control"></textarea>
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="JobId" />
+            <input type="hidden" asp-for="Customer" />
+            <input type="hidden" asp-for="Service.Name" />
+            <input type="hidden" asp-for="Service.UserId" />
+            <input type="hidden" asp-for="Date" />
+            <input type="hidden" asp-for="Cost" />
+            <input type="hidden" asp-for="CustomerId" />
+            <input type="hidden" asp-for="ServiceId" />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" /> <a class="btn btn-outline-secondary" href="javascript:history.back()">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
