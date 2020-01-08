@@ -12,11 +12,7 @@ a.navbar-brand {
     word-break: break-all;
 }
 
-.sticky {
-    position: fixed;
-    top: 0;
-    width: 100%;
-}
+
 /* nav links */
 a {
     color: #2D530C;
@@ -24,12 +20,12 @@ a {
 
 .btn-primary {
     color: #fff;
-    background-color: #2C520B; /*MowPro logo green*/
+    background-color: #89c058;
     border-color: #1861ac;
 }
 
     .btn-primary:hover {
-        background-color: #89c058;
+        background-color: #2C520B; /*MowPro logo green*/
     }
 
 a.dropdown-item:hover {
@@ -91,6 +87,23 @@ html {
     min-height: 100%;
 }
 
+body,
+td {
+    color: #737373;
+}
+
+h1 {
+    color: #2D530C;
+    margin: 25px 0px;
+}
+
+.searchBar {
+    position: absolute;
+    right: 15%;
+    top: 20%;
+}
+
+
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
@@ -99,17 +112,19 @@ body {
 
 h1 {
     color: #2D530C;
+    margin: 25px, 0;
 }
 
 thead {
     background: #528f24;
     color: white;
+    margin-top: 10px;
 }
 
 a {
     color: #89c058;
-   
 }
+
     a:hover {
         color: #2C520B;
     }

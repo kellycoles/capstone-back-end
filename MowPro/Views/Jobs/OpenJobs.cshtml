@@ -16,15 +16,17 @@
 }
 
 @* search box *@
-<form asp-action="OpenJobs" method="get">
-    <div class="form-actions no-color">
-        <p>
-            <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
-            <input type="submit" value="Search" /> |
-            <a asp-action="OpenJobs">Back to Full List</a>
-        </p>
-    </div>
-</form>
+<div class="searchBar">
+    <form asp-action="OpenJobs" method="get">
+        <div class="form-actions no-color">
+            <p>
+                <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
+                <input type="submit" value="Search" /> |
+                <a asp-action="OpenJobs">Back to Full List</a>
+            </p>
+        </div>
+    </form>
+</div>
 @* if no records match searchString, don't show table header. *@
 @if (Model.Count() != 0)
 {

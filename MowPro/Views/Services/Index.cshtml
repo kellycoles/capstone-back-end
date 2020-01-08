@@ -3,70 +3,72 @@
 @{
     ViewData["Title"] = "Index";
 }
-    
-        <h1>Services</h1>
 
-        @if (TempData["Message"] != null)
-        {
-            <div class="alert alert-secondary alert-dismissible fade show" role="alert">
-                <p class="lead"> @TempData["Message"] </p>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+<h1>Services</h1>
 
-        }
-        <p>
-            <a asp-action="Create">Create New</a>
-        </p>
-        <form asp-action="Index" method="get">
-            <div class="form-actions no-color">
-                <p>
-                    Find by name: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
-                    <input type="submit" value="Search" /> |
-                    <a asp-action="Index">Back to Full List</a>
-                </p>
-            </div>
-        </form>
-        @* if no records match searchString, don't show table header. *@
-        @if (Model.Count() != 0)
-        {
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Name)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Description)
-                        </th>
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+        <p class="lead"> @TempData["Message"] </p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
+}
+<p>
+    <a asp-action="Create" class="btn btn-sm btn-primary">Create New</a>
+</p>
+@*search*@
+<div class="searchBar">
+    <form asp-action="Index" method="get">
+        <div class="form-actions no-color">
+            <p>
+                Find by name: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
+                <input type="submit" value="Search" /> |
+                <a asp-action="Index">Back to Full List</a>
+            </p>
+        </div>
+    </form>
+</div>
+@* if no records match searchString, don't show table header. *@
+@if (Model.Count() != 0)
+{
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
 
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td style="word-wrap: break-word;min-width: 500px;max-width: 500px;">
-                                @Html.DisplayFor(modelItem => item.Description)
-                            </td>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
 
-                            <td>
-                                <a asp-action="Edit" asp-route-id="@item.ServiceId">Edit</a> |
-                                <a asp-action="Delete" asp-route-id="@item.ServiceId">Delete</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
-        else
-        {
-            <p class="alert alert-warning">Sorry. There are no records containing: @ViewData["currentFilter"]</p>
-        }
-    
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td style="word-wrap: break-word;min-width: 500px;max-width: 500px;">
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ServiceId">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@item.ServiceId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p class="alert alert-warning">Sorry. There are no records containing: @ViewData["currentFilter"]</p>
+}
