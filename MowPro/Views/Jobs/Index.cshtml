@@ -7,7 +7,7 @@
 <h1>Current Jobs</h1>
 @if (TempData["Message"] != null)
 {
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <div class="alert alert-secondary alert-dismissible fade show" role="alert">
         <p class="lead"> @TempData["Message"] </p>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -136,5 +136,5 @@
 }
 else
 {
-    <p class="alert-info lead">There are no records containing: @ViewData["currentFilter"]</p>
+    <p class="alert alert-warning">Sorry. There are no records containing: @ViewData["currentFilter"]</p>
 }
