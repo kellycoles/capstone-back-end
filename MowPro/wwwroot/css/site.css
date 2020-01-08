@@ -20,17 +20,18 @@ a {
 
 .btn-primary {
     color: #fff;
-    background-color: #89c058;
+    background-color: #528f24;
+    
     border-color: #1861ac;
 }
 
     .btn-primary:hover {
-        background-color: #2C520B; /*MowPro logo green*/
+        background-color: #89c058; 
     }
 
 a.dropdown-item:hover {
     color: #fff;
-    background-color: #2C520B;
+    background-color: #528f24;
 }
 
 a.nav-link {
@@ -102,7 +103,9 @@ h1 {
     right: 15%;
     top: 20%;
 }
-
+input.btn-primary {
+    border: .5px solid #2C520B;
+}
 
 body {
     /* Margin bottom by footer height */
