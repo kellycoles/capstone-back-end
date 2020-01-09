@@ -12,12 +12,9 @@ a.navbar-brand {
     word-break: break-all;
 }
 
-
-/* nav links */
 a {
     color: #2D530C;
 }
-
 
 .btn-primary {
     color: #fff;
@@ -54,11 +51,6 @@ html {
     font-size: 14px;
 }
 
-@media (min-width: 768px) {
-    html {
-        font-size: 16px;
-    }
-}
 
 .border-top {
     border-top: 1px solid #e5e5e5;
@@ -85,8 +77,7 @@ a#personal-data.nav-link.active {
     background: #528f24;
 }
 /* End nav styles
-    -----------------------------------------------------------------------------------------------
-*/
+---------------------------------------------------*/
 
 /*Body
 -------------------------------------------------- */
@@ -158,10 +149,69 @@ a {
     display: flex;
     justify-content: flex-end;
 }
-/*hide footer text on small screens*/
-@media (max-width: 980px) {
-    .footer span{
-   visibility:hidden;
+
+/*Media Queries
+    ===========================================
+*/
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+@media (min-width: 981px) {
+    span.delete-icon {
+        display: none
     }
 
+    span.delete-text {
+        display: inline-block
+    }
+
+    span.edit-icon {
+        display: none
+    }
+
+    span.edit-text {
+        display: inline-block
+    }
+
+    span.details-icon {
+        display: none
+    }
+
+    span.details-text {
+        display: inline-block
+    }
+}
+
+@media (max-width: 980px) {
+    span.delete-icon {
+        display: inline-block
+    }
+
+    span.delete-text {
+        display: none
+    }
+
+    span.edit-icon {
+        display: inline-block
+    }
+
+    span.edit-text {
+        display: none
+    }
+
+    span.details-icon {
+        display: inline-block
+    }
+
+    span.details-text {
+        display: none
+    }
+
+    .footer span {
+        visibility: hidden;
+    }
 }
