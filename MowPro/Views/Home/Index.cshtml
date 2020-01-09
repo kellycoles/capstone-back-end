@@ -1,48 +1,124 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-<style>
+﻿@*This is the Home index page--all this is because I wanted a different footer on this page*@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] Home- MowPro</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-Flatly.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="icon" href=@Url.Action("~/images/favicon.png") />
 
-    body {
-        background: linear-gradient(rgba(0,0,0,.1),
-        rgba(0,0,0,.1)),
-        url(../images/grass.jpg) no-repeat center;
-      
-        background-size: cover;
+    @using Microsoft.AspNetCore.Identity
+    @inject SignInManager<ApplicationUser> SignInManager
+    @inject UserManager<ApplicationUser> UserManager
+    @{
+
+    }
+    @{
+        Layout = null;
     }
 
-    .home-header {
-        padding-top: 150px;
-    }
+    <style>
 
-    h1 {
-        font-size: 5.625rem;
-        color: rgba(255, 255, 255, 1);
-        font-weight: bold;
-        line-height: 1.3;
-        text-shadow: 0 1px 1px rgba(0,0,0, .70);
-        margin: 12px 0 0;
-    }
+        body {
+            background: linear-gradient(rgba(0,0,0,.1), rgba(0,0,0,.1)), url(../images/grass.jpg) no-repeat center;
+            background-size: cover;
+        }
 
-    .title {
-        color: white;
-        font-size: 1.625em;
-        letter-spacing: .065em;
-        font-weight: 200;
-    }
-      .footer div {
-        color: white;
-    }
+        .home-header {
+            padding-top: 150px;
+        }
 
-    .footer a {
-        color: #89c058;
-    }
-</style>
+        h1 {
+            font-size: 5.625rem;
+            color: rgba(255, 255, 255, 1);
+            font-weight: bold;
+            line-height: 1.3;
+            text-shadow: 0 1px 1px rgba(0,0,0, .70);
+            margin: 12px 0 0;
+        }
 
-<div class="overlay">
-    <div class="text-center home-header">
-        <h1>MowPro</h1>
-        <p class="title">Lawn Care Management</p>
+        .title {
+            color: white;
+            font-size: 1.625em;
+            letter-spacing: .065em;
+            font-weight: 200;
+        }
+
+        .home-footer div {
+            color: white;
+            position:absolute;
+            bottom:20px;
+            left:200px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 ">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/images/mow.png" alt="MowPro Logo" /></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <partial name="_LoginPartial" />
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark " asp-area="" asp-controller="Customers" asp-action="Index">Customers</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Services" asp-action="Index">Services</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown">
+                                    Jobs
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" asp-area="" asp-controller="Jobs" asp-action="Index">Current Jobs</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Jobs" asp-action="OpenJobs">Open Jobs: Pending Payment</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Jobs" asp-action="ClosedJobs">Closed Jobs</a>
+                                </div>
+                            </li>
+
+                        </ul>
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            <div class="text-center home-header">
+                <h1>MowPro</h1>
+                <p class="title">Lawn Care Management</p>
+            </div>
+        </main>
     </div>
-</div>
+
+    <footer class="home-footer text-muted">
+        <div class="container">
+            &copy; 2019 - MowPro - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>
+
+
+
+
+@*<div class="overlay">
+        <div class="text-center home-header">
+            <h1>MowPro</h1>
+            <p class="title">Lawn Care Management</p>
+        </div>
+    </div>*@
 

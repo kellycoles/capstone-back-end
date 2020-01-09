@@ -4,12 +4,11 @@
     ViewData["Title"] = "Delete Customer";
 }
 
-<h1>Delete Customer</h1>
-
-<h3>Are you sure you want to delete @Html.DisplayFor(model => model.FullName)?</h3>
+    <h1>Delete @Html.DisplayFor(model => model.FullName)</h1>
+<hr />
+<h3>Are you sure?</h3>
+<br/>
 <div>
-    <h3>Customer</h3>
-    <hr />
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FirstName)
@@ -56,10 +55,10 @@
         </dd>
 
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="CustomerId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <a class="btn btn-outline-secondary" href="javascript:history.back()">Cancel</a>
     </form>
 </div>

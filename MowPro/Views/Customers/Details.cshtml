@@ -5,10 +5,10 @@
 }
 
 <h1>Customer Details</h1>
-
+<hr />
 <div>
     <h3>@Html.DisplayFor(model => model.FullName)</h3>
-    <hr />
+
     <dl class="row">
 
         <dt class="col-sm-2">
@@ -42,7 +42,7 @@
             @Html.DisplayFor(model => model.Preferences)
         </dd>
     </dl>
-    <div>
+    <div class="map">
         <iframe width="300" height="200" style="border:none" src="@($"https://maps.google.com/maps?q={Model.StreetAddress}&t=&z=13&ie=UTF8&iwloc=&output=embed")"></iframe>
     </div>
 </div>
