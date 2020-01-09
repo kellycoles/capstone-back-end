@@ -3,7 +3,25 @@
 @{
     ViewData["Title"] = "Index";
 }
+<style>
+    @@media (min-width: 981px) {
+    span.delete-icon {display:none}
+    span.delete-text {display:inline-block}
+    span.edit-icon {display:none}
+    span.edit-text {display:inline-block}
+    span.details-icon {display:none}
+    span.details-text {display:inline-block}
+}
 
+@@media (max-width: 980px) {
+    span.delete-icon {display:inline-block}
+    span.delete-text {display:none}
+    span.edit-icon {display:inline-block}
+    span.edit-text {display:none}
+    span.details-icon {display:inline-block}
+    span.details-text {display:none}
+}
+</style>
 <div class="searchBar">
     <form asp-action="Index" method="get">
         <div class="form-actions no-color">
@@ -67,9 +85,13 @@
                     </td>
 
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.CustomerId">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.CustomerId">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.CustomerId">Delete</a>
+                        <span class="edit-icon"><a asp-action="Edit" asp-route-id="@item.CustomerId"><img src="~/images/icons/edit.png" /></a></span>
+                        <span class="edit-text"><a asp-action="Edit" asp-route-id="@item.CustomerId">Edit |</a></span> 
+                        <span class="details-icon"><a asp-action="Details" asp-route-id="@item.CustomerId"><img src="~/images/icons/details.png" /></a></span>
+                        <span class="details-text"><a asp-action="Details" asp-route-id="@item.CustomerId">Details |</a></span> 
+                        <span class="delete-icon"><a asp-action="Delete" asp-route-id="@item.CustomerId"><img src="~/images/icons/delete.png" /></a></span>
+                        <span class="delete-text"><a asp-action="Delete" asp-route-id="@item.CustomerId">Delete</a></span>
+
                     </td>
                 </tr>
             }

@@ -158,3 +158,10 @@ a {
     display: flex;
     justify-content: flex-end;
 }
+/*hide footer text on small screens*/
+@media (max-width: 980px) {
+    .footer span{
+   visibility:hidden;
+    }
+
+}
