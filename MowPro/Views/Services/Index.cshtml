@@ -43,7 +43,9 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Description)
                 </th>
-
+                <th>
+                    <span class="action-text">Actions</span>
+                </th>
                 <th></th>
             </tr>
         </thead>
@@ -60,8 +62,10 @@
                     </td>
 
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.ServiceId">Edit</a> |
-                        <a asp-action="Delete" asp-route-id="@item.ServiceId">Delete</a>
+                        <span class="edit-icon"><a asp-action="Edit" asp-route-id="@item.ServiceId"><img src="~/images/icons/edit.png" /></a></span>
+                        <span class="edit-text"><a asp-action="Edit" asp-route-id="@item.ServiceId">Edit |</a></span>
+                        <span class="delete-icon"><a asp-action="Delete" asp-route-id="@item.ServiceId"><img src="~/images/icons/delete.png" /></a></span>
+                        <span class="delete-text"><a asp-action="Delete" asp-route-id="@item.ServiceId">Delete</a></span>
                     </td>
                 </tr>
             }
@@ -74,4 +78,3 @@ else
 }
 
 
-    

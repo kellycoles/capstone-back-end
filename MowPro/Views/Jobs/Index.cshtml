@@ -58,9 +58,12 @@
             </div>
             <div class="card-footer  text-center">
                 <small class="text-muted">
-                    <a asp-action="Edit" asp-route-id="@item.JobId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.JobId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.JobId">Delete</a>
+                    <span class="edit-icon"><a asp-action="Edit" asp-route-id="@item.JobId"><img src="~/images/icons/edit.png" /></a></span>
+                    <span class="edit-text"><a asp-action="Edit" asp-route-id="@item.JobId">Edit |</a></span>
+                    <span class="details-icon"><a asp-action="Details" asp-route-id="@item.JobId"><img src="~/images/icons/details.png" /></a></span>
+                    <span class="details-text"><a asp-action="Details" asp-route-id="@item.JobId">Details |</a></span>
+                    <span class="delete-icon"><a asp-action="Delete" asp-route-id="@item.JobId"><img src="~/images/icons/delete.png" /></a></span>
+                    <span class="delete-text"><a asp-action="Delete" asp-route-id="@item.JobId">Delete</a></span>
                 </small>
             </div>
         </div>

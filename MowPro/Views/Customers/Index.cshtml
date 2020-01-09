@@ -47,7 +47,9 @@
                 <th>
                     @Html.DisplayNameFor(model => model.PhoneNumber)
                 </th>
-
+                <th>
+                    <span class="action-text">Actions</span>
+                </th>
                 <th></th>
             </tr>
         </thead>
@@ -67,9 +69,13 @@
                     </td>
 
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.CustomerId">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.CustomerId">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.CustomerId">Delete</a>
+                        <span class="edit-icon"><a asp-action="Edit" asp-route-id="@item.CustomerId"><img src="~/images/icons/edit.png" /></a></span>
+                        <span class="edit-text"><a asp-action="Edit" asp-route-id="@item.CustomerId">Edit |</a></span> 
+                        <span class="details-icon"><a asp-action="Details" asp-route-id="@item.CustomerId"><img src="~/images/icons/details.png" /></a></span>
+                        <span class="details-text"><a asp-action="Details" asp-route-id="@item.CustomerId">Details |</a></span> 
+                        <span class="delete-icon"><a asp-action="Delete" asp-route-id="@item.CustomerId"><img src="~/images/icons/delete.png" /></a></span>
+                        <span class="delete-text"><a asp-action="Delete" asp-route-id="@item.CustomerId">Delete</a></span>
+
                     </td>
                 </tr>
             }

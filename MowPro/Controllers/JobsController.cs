@@ -280,7 +280,7 @@ namespace MowPro.Controllers
             {
                 return NotFound();
             }
-            var job = await _context.Job
+            Job job = await _context.Job
              .Include(c => c.Customer)
              .Include(c => c.Service)
 
