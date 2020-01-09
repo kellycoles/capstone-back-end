@@ -99,10 +99,10 @@ h1 {
 }
 
 .searchBar {
-    position: absolute;
-    right: 15%;
-    top: 20%;
+    display: flex;
+    justify-content: flex-end;
 }
+
 input.btn-primary {
     border: .5px solid #2C520B;
 }
