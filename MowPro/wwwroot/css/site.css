@@ -18,15 +18,15 @@ a {
     color: #2D530C;
 }
 
+
 .btn-primary {
     color: #fff;
     background-color: #528f24;
-    
     border-color: #1861ac;
 }
 
     .btn-primary:hover {
-        background-color: #89c058; 
+        background-color: #89c058;
     }
 
 a.dropdown-item:hover {
@@ -36,6 +36,7 @@ a.dropdown-item:hover {
 
 a.nav-link {
     color: #2C520B;
+    font-size: 16px;
 }
 
     a.nav-link:hover {
@@ -47,13 +48,8 @@ a.nav-link {
     background-color: #1b6ec2;
     border-color: #1861ac;
 }
-/* End nav styles
-    -----------------------------------------------------------------------------------------------
-*/
 
 
-/* Sticky footer styles
--------------------------------------------------- */
 html {
     font-size: 14px;
 }
@@ -73,13 +69,24 @@ html {
 }
 
 .box-shadow {
-    /*box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);*/
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .3);
 }
 
 button.accept-policy {
     font-size: 1rem;
     line-height: inherit;
 }
+
+a#profile.nav-link.active,
+a#email.nav-link.active,
+a#change-password.nav-link.active,
+a#two-factor.nav-link.active,
+a#personal-data.nav-link.active {
+    background: #528f24;
+}
+/* End nav styles
+    -----------------------------------------------------------------------------------------------
+*/
 
 /*Body
 -------------------------------------------------- */
@@ -101,7 +108,7 @@ h1 {
 .searchBar {
     display: flex;
     justify-content: flex-end;
-    margin-top:40px;
+    margin-top: 40px;
 }
 
 input.btn-primary {
@@ -145,4 +152,9 @@ a {
     white-space: nowrap;
     line-height: 60px; /* Vertically center the text there */
     /*background-color: rgba(79,128,36,0.5)*/
+}
+
+.top-link {
+    display: flex;
+    justify-content: flex-end;
 }
