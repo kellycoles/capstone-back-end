@@ -2,12 +2,12 @@
     ViewData["Title"] = "Home Page";
 }
 <style>
-
+    html{
+         overflow-y: hidden;
+        overflow-x: hidden;
+    }
     body {
-        background: linear-gradient(rgba(0,0,0,0.1),
-        rgba(0,0,0,0.1)),
-        url(../images/grass.jpg) no-repeat center;
-      
+        background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url(../images/grass.jpg) no-repeat center;
         background-size: cover;
     }
 
@@ -30,13 +30,25 @@
         letter-spacing: .065em;
         font-weight: 200;
     }
-      .footer div {
+
+    .home-footer div {
         color: white;
     }
 
-    .footer a {
+    .home-footer a {
         color: #89c058;
     }
+
+    .home-footer div {
+        color: white;
+        position: absolute;
+        bottom: 15px;
+        left: 30px;
+    }
+    .footer{
+        visibility:hidden;
+    }
+
 </style>
 
 <div class="overlay">
@@ -45,4 +57,8 @@
         <p class="title">Lawn Care Management</p>
     </div>
 </div>
-
+<footer class="home-footer text-muted">
+    <div class="container">
+        &copy; 2019 - MowPro - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    </div>
+</footer>
