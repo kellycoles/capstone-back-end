@@ -14,8 +14,7 @@
 </head>
 <body>
     <header>
-        
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" id="top">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/images/red-logo.png" alt="MowPro Logo" /></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -38,18 +37,23 @@
                                     Jobs
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" asp-area="" asp-controller="Jobs" asp-action="Create">Create New</a>
                                     <a class="dropdown-item" asp-area="" asp-controller="Jobs" asp-action="Index">Current Jobs</a>
-                                    <a class="dropdown-item" asp-area="" asp-controller="Jobs" asp-action="OpenJobs">Open Jobs: Pending Payment</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Jobs" asp-action="OpenJobs">Open Jobs</a>
                                     <a class="dropdown-item" asp-area="" asp-controller="Jobs" asp-action="ClosedJobs">Closed Jobs</a>
                                 </div>
                             </li>
-
                         </ul>
                     }
                 </div>
             </div>
         </nav>
     </header>
+
+    <div class="anchor">
+        <a id="top"> </a>
+    </div>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -59,7 +63,7 @@
 
     <footer class="footer text-muted">
         <div class="container">
-            <span>&copy; 2019 - MowPro - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></span>          
+            <span>&copy; 2019 - MowPro - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></span>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

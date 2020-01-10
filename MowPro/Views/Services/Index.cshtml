@@ -27,7 +27,7 @@
     </div>
 
 }
-<p>
+<p class="createLink">
     <a asp-action="Create">Create New</a>
 </p>
 
@@ -53,17 +53,17 @@
             @foreach (var item in Model)
             {
                 <tr>
-
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
-                    <td style="word-wrap: break-word;min-width: 500px;max-width: 500px;">
+                    <td style="word-wrap: break-word;min-width: 300px;max-width: 300px;">
                         @Html.DisplayFor(modelItem => item.Description)
                     </td>
 
                     <td>
                         <span class="edit-icon"><a asp-action="Edit" asp-route-id="@item.ServiceId"><img src="~/images/icons/edit.png" /></a></span>
                         <span class="edit-text"><a asp-action="Edit" asp-route-id="@item.ServiceId">Edit |</a></span>
+                        <span class="details-icon"><a asp-action="Details" asp-route-id="@item.ServiceId"><img src="~/images/icons/details.png" /></a></span>
                         <span class="delete-icon"><a asp-action="Delete" asp-route-id="@item.ServiceId"><img src="~/images/icons/delete.png" /></a></span>
                         <span class="delete-text"><a asp-action="Delete" asp-route-id="@item.ServiceId">Delete</a></span>
                     </td>

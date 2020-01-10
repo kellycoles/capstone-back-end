@@ -175,6 +175,7 @@ namespace MowPro.Controllers
                 {
                     _context.Update(job);
                     await _context.SaveChangesAsync();
+                 
                     TempData["Message"] = "Your job was successfully edited!";
 
 
@@ -251,8 +252,10 @@ namespace MowPro.Controllers
                 {
                     _context.Update(job);
                     await _context.SaveChangesAsync();
-                    TempData["Message"] = "Your job has been marked complete!";
-
+                    if (job.IsComplete == true)
+                    {
+                        TempData["Message"] = "Your job has been marked complete!";
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
