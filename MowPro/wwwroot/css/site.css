@@ -132,6 +132,7 @@ input.btn-primary {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
+    height:100%;
     background: linear-gradient(rgba(0,0,0,0.1),rgba(255,255,255,.1));
 }
 
@@ -158,10 +159,10 @@ a {
     border: none;
     position: absolute;
     bottom: 0;
+    left: 0;
     width: 100%;
     white-space: nowrap;
     line-height: 60px; /* Vertically center the text there */
-    /*background-color: rgba(79,128,36,0.5)*/
 }
 
 .top-link {
@@ -181,28 +182,29 @@ a {
 
 @media (min-width: 981px) {
     span.delete-icon {
-        display: none
+        display: none;
     }
 
     span.delete-text {
-        display: inline-block
+        display: inline-block;
     }
 
     span.edit-icon {
-        display: none
+        display: none;
     }
 
     span.edit-text {
-        display: inline-block
+        display: inline-block;
     }
 
     span.details-icon {
-        display: none
+        display: none;
     }
 
     span.details-text {
-        display: inline-block
+        display: inline-block;
     }
+
 }
 
 @media (max-width: 980px) {
@@ -211,26 +213,28 @@ a {
     }
 
     span.delete-text {
-        display: none
+        display: none;
     }
 
     span.edit-icon {
-        display: inline-block
+        display: inline-block;
     }
 
     span.edit-text {
-        display: none
+        display: none;
     }
 
     span.details-icon {
-        display: inline-block
+        display: inline-block;
     }
 
     span.details-text {
-        display: none
+        display: none;
     }
 
     .footer span {
         visibility: hidden;
     }
+
+
 }

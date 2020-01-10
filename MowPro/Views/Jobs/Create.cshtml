@@ -40,16 +40,7 @@
                 <input asp-for="Job.Cost" class="form-control" />
                 <span asp-validation-for="Job.Cost" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Job.IsComplete" /> @Html.DisplayNameFor(model => model.Job.IsComplete)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Job.Paid" /> @Html.DisplayNameFor(model => model.Job.Paid)
-                </label>
-            </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" /> <a class="btn btn-outline-secondary" href="javascript:history.back()">Cancel</a>
             </div>

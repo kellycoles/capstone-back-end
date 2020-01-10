@@ -17,7 +17,7 @@
     </form>
 </div>
 <h1>Open Jobs</h1>
-<h4>Payment Pending</h4>
+<h3 style="margin-top: -10px; margin-bottom:20px;">Payment Due</h3>
 @if (TempData["Message"] != null)
 {
     <div class="alert alert-secondary alert-dismissible fade show" role="alert">
@@ -49,12 +49,6 @@
                     @Html.DisplayNameFor(model => model.Cost)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.IsComplete)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Paid)
-                </th>
-                <th>
                     <span class="action-text">Actions</span>
                 </th>
                 <th></th>
@@ -74,15 +68,8 @@
                         @Html.DisplayFor(modelItem => item.Service.Name)
                     </td>
 
-
                     <td>
                         @Html.DisplayFor(modelItem => item.Cost)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IsComplete)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Paid)
                     </td>
 
                     <td>

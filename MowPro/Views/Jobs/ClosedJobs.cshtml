@@ -48,12 +48,6 @@
                     @Html.DisplayNameFor(model => model.Cost)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.IsComplete)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Paid)
-                </th>
-                <th>
                     <span class="action-text">Actions</span>
                 </th>
                 <th></th>
@@ -76,12 +70,6 @@
 
                     <td>
                         @Html.DisplayFor(modelItem => item.Cost)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IsComplete)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Paid)
                     </td>
                     <td>
                         <span class="edit-icon"><a asp-action="Edit" asp-route-id="@item.JobId"><img src="~/images/icons/edit.png" /></a></span>
