@@ -1,9 +1,13 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 /*navbar div*/
-
-navbar {
+.navbar {
     width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
 }
 
 a.navbar-brand {
@@ -76,6 +80,7 @@ a#two-factor.nav-link.active,
 a#personal-data.nav-link.active {
     background: #528f24;
 }
+
 /* End nav styles
 ---------------------------------------------------*/
 
@@ -93,13 +98,28 @@ td {
 
 h1 {
     color: #2D530C;
-    margin: 15px 0px;
+    margin-top: 0;
+    margin-bottom: 20px;
 }
-
+/*top link positioning to combat fixed footer*/
+.anchor a {
+    position: absolute;
+    left: 0px;
+    top: -150px;
+}
+.anchor {
+    position: relative;
+}
 .searchBar {
     display: flex;
     justify-content: flex-end;
-    margin-top: 40px;
+    margin-top: 150px;
+}
+
+.createLink {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 5px;
 }
 
 input.btn-primary {
@@ -112,10 +132,6 @@ body {
     background: linear-gradient(rgba(0,0,0,0.1),rgba(255,255,255,.1));
 }
 
-h1 {
-    color: #2D530C;
-    margin: 25px, 0;
-}
 
 thead {
     background: #528f24;
