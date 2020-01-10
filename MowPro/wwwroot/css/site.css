@@ -113,9 +113,12 @@ h1 {
 .searchBar {
     display: flex;
     justify-content: flex-end;
-    margin-top: 150px;
+    margin-top: 150px;  /*required to clear fixed nav*/
 }
-
+.h1 {
+    margin-top: 150px; /*required to clear fixed nav.
+        couldn't use element h1 because some pages have the above search box as top element*/
+}
 .createLink {
     margin-top: 20px;
     margin-bottom: 20px;
