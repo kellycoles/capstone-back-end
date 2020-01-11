@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using MowPro.Data;
 using MowPro.Models;
 using MowPro.Models.ViewModels;
@@ -15,6 +17,8 @@ namespace MowPro.Controllers
 {
     public class JobsController : Controller
     {
+  
+
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
@@ -33,14 +37,15 @@ namespace MowPro.Controllers
             var applicationDbContext = _context.Job
                 .Include(c => c.Customer)
                 .Include(c => c.Service).OrderBy(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete == false);
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 applicationDbContext = _context.Job
                .Include(c => c.Customer)
                .Include(c => c.Service).OrderBy(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete == false)
                .Where(c => c.Customer.FirstName.Contains(searchString) || c.Customer.LastName.Contains(searchString) || c.Service.Name.Contains(searchString));
-
             }
+            
                 return View(await applicationDbContext.ToListAsync());
         }
         public async Task<IActionResult> ClosedJobs(string searchString)
@@ -228,9 +233,6 @@ namespace MowPro.Controllers
             {
                 return NotFound();
             }
-            var serviceSelectItems = await _context.Service.Where(s => s.UserId == user.Id).ToListAsync();
-            ViewData["ServiceId"] = new SelectList(serviceSelectItems, "ServiceId", "Name", job.ServiceId);
-
             return View(job);
         }
 
@@ -271,7 +273,6 @@ namespace MowPro.Controllers
         
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ServiceId"] = new SelectList(_context.Job, "Id", "Name", job.ServiceId);
 
             return View(job);
         }

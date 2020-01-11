@@ -55,6 +55,7 @@
                     <dd class="col-sm-6 card-text">@Html.DisplayFor(modelItem => item.Cost)</dd>
                     <dt class="col-sm-6 card-text">@Html.DisplayNameFor(model => model.Customer.Preferences):</dt>
                     <dd class="col-sm-6 card-text">@Html.DisplayFor(modelItem => item.Customer.Preferences)</dd>
+
                 </dl>
                 <a asp-action="CompleteJob" asp-route-id="@item.JobId" class="btn btn-sm btn-primary">Complete Job</a>
 
@@ -83,7 +84,7 @@
 
 </div>
 }
-else
+else if (@ViewData["currentFilter"])
 {
     <p class="alert alert-warning">Sorry. There are no records containing: @ViewData["currentFilter"]</p>
 }
