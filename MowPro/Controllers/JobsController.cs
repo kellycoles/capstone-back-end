@@ -214,8 +214,8 @@ namespace MowPro.Controllers
 
             return View(job);
         }
-    
-        //Get: Jobs/CompleteJob/5
+
+        // GET: Jobs/Complete Job/5
         public async Task<IActionResult> CompleteJob(int? id)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
@@ -233,21 +233,23 @@ namespace MowPro.Controllers
             {
                 return NotFound();
             }
+            var serviceSelectItems = await _context.Service.Where(s => s.UserId == user.Id).ToListAsync();
+            ViewData["ServiceId"] = new SelectList(serviceSelectItems, "ServiceId", "Name", job.ServiceId);
+
             return View(job);
         }
 
-        // POST: Jobs/CompleteJob/5
-    
+        // POST: Jobs/Complete Job/5
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult>CompleteJob(int id, Job job)
+        public async Task<IActionResult> CompleteJob(int id, Job job)
         {
-            var user = await GetCurrentUserAsync();
             if (id != job.JobId)
             {
                 return NotFound();
             }
-           
+
             if (ModelState.IsValid)
             {
                 try
@@ -258,6 +260,7 @@ namespace MowPro.Controllers
                     {
                         TempData["Message"] = "Your job has been marked complete!";
                     }
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -270,9 +273,22 @@ namespace MowPro.Controllers
                         throw;
                     }
                 }
-        
-                return RedirectToAction(nameof(Index));
+                if (job.IsComplete == false)
+                {
+                    TempData["Message"] = "You did not mark this job complete!";
+                    return RedirectToAction(nameof(Index));
+                }
+                else if (job.IsComplete == true && job.Paid == true)
+                {
+                    return RedirectToAction(nameof(ClosedJobs));
+                }
+
+                else
+                {
+                    return RedirectToAction(nameof(OpenJobs));
+                }
             }
+            ViewData["ServiceId"] = new SelectList(_context.Job, "Id", "Name", job.ServiceId);
 
             return View(job);
         }

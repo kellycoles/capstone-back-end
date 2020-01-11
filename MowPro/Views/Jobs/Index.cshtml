@@ -45,7 +45,7 @@
         <div class="card  mb-4 ml-auto mr-auto" style="min-width: 18rem; max-width:30.5%;">
             <iframe class="card-img-top" style="border:none" src="@($"https://maps.google.com/maps?q={item.Customer.StreetAddress}&t=&z=13&ie=UTF8&iwloc=&output=embed")"></iframe>
             <div class="card-body">
-                <h5 class="card-title"> @Html.DisplayFor(modelItem => item.Service.Name)</h5>
+                <h5 class="card-title"style="color:#528F24;"> @Html.DisplayFor(modelItem => item.Service.Name)</h5>
                 <dl class="row">
                     <dt class="col-sm-6 card-text">@Html.DisplayNameFor(model => model.Date):</dt>
                     <dd class="col-sm-6 card-text">@Html.DisplayFor(modelItem => item.Date)</dd>
@@ -53,9 +53,10 @@
                     <dd class="col-sm-6 card-text"><a asp-action="Details" asp-controller="Customers" asp-route-id="@item.CustomerId">@Html.DisplayFor(modelItem => item.Customer.FullName)</a></dd>
                     <dt class="col-sm-6 card-text">@Html.DisplayNameFor(model => model.Cost):</dt>
                     <dd class="col-sm-6 card-text">@Html.DisplayFor(modelItem => item.Cost)</dd>
-                    <dt class="col-sm-6 card-text">@Html.DisplayNameFor(model => model.Customer.Preferences):</dt>
-                    <dd class="col-sm-6 card-text">@Html.DisplayFor(modelItem => item.Customer.Preferences)</dd>
-
+                    @*<dt class="col-sm-6 card-text">@Html.DisplayNameFor(model => model.Customer.Preferences):</dt>
+        <dd class="col-sm-6 card-text">@Html.DisplayFor(modelItem => item.Customer.Preferences)</dd>*@
+                    <dt class="col-sm-6 card-text">@Html.DisplayNameFor(model => model.Notes):</dt>
+                    <dd class="col-sm-6 card-text">@Html.DisplayFor(modelItem => item.Notes)</dd>
                 </dl>
                 <a asp-action="CompleteJob" asp-route-id="@item.JobId" class="btn btn-sm btn-primary">Complete Job</a>
 
@@ -84,7 +85,7 @@
 
 </div>
 }
-else if (@ViewData["currentFilter"])
+else 
 {
-    <p class="alert alert-warning">Sorry. There are no records containing: @ViewData["currentFilter"]</p>
+    <p class="alert alert-warning">Sorry. There are no jobs matching your search.</p>
 }
