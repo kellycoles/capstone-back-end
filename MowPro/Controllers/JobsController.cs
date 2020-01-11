@@ -63,6 +63,7 @@ namespace MowPro.Controllers
                                 .Where(c => c.Customer.FirstName.Contains(searchString) || c.Customer.LastName.Contains(searchString));
 
             }
+    
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -73,9 +74,8 @@ namespace MowPro.Controllers
             var applicationDbContext = _context.Job
                 .Include(c => c.Customer)
                 .Include(c => c.Service).OrderBy(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete && j.Paid == false);
-            if (!String.IsNullOrEmpty(searchString))
+                  if (!String.IsNullOrEmpty(searchString))
             {
-                var DbF = Microsoft.EntityFrameworkCore.EF.Functions;
                 applicationDbContext = _context.Job
                                 .Include(c => c.Customer)
                                 .Include(c => c.Service).OrderBy(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete && j.Paid == false)

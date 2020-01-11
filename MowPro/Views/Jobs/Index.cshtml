@@ -53,9 +53,7 @@
                     <dd class="col-sm-6 card-text"><a asp-action="Details" asp-controller="Customers" asp-route-id="@item.CustomerId">@Html.DisplayFor(modelItem => item.Customer.FullName)</a></dd>
                     <dt class="col-sm-6 card-text">@Html.DisplayNameFor(model => model.Cost):</dt>
                     <dd class="col-sm-6 card-text">@Html.DisplayFor(modelItem => item.Cost)</dd>
-                    @*<dt class="col-sm-6 card-text">@Html.DisplayNameFor(model => model.Customer.Preferences):</dt>
-        <dd class="col-sm-6 card-text">@Html.DisplayFor(modelItem => item.Customer.Preferences)</dd>*@
-                    <dt class="col-sm-6 card-text">@Html.DisplayNameFor(model => model.Notes):</dt>
+
                     <dd class="col-sm-6 card-text">@Html.DisplayFor(modelItem => item.Notes)</dd>
                 </dl>
                 <a asp-action="CompleteJob" asp-route-id="@item.JobId" class="btn btn-sm btn-primary">Complete Job</a>
