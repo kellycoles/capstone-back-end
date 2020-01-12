@@ -56,31 +56,34 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Date)
-                    </td>
-                    <td>
-                        <a asp-action="Details" asp-controller="Customers" asp-route-id="@item.CustomerId">@Html.DisplayFor(modelItem => item.Customer.FullName)</a>
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Service.Name)
-                    </td>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-controller="Customers" asp-route-id="@item.CustomerId">@Html.DisplayFor(modelItem => item.Customer.FullName)</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Service.Name)
+                </td>
 
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Cost)
-                    </td>
-                    <td>
-                        <span class="edit-icon"><a asp-action="Edit" asp-route-id="@item.JobId"><img src="~/images/icons/edit.png" /></a></span>
-                        <span class="edit-text"><a asp-action="Edit" asp-route-id="@item.JobId">Edit |</a></span>
-                        <span class="details-icon"><a asp-action="Details" asp-route-id="@item.JobId"><img src="~/images/icons/details.png" /></a></span>
-                        <span class="details-text"><a asp-action="Details" asp-route-id="@item.JobId">Details |</a></span>
-                        <span class="delete-icon"><a asp-action="Delete" asp-route-id="@item.JobId"><img src="~/images/icons/delete.png" /></a></span>
-                        <span class="delete-text"><a asp-action="Delete" asp-route-id="@item.JobId">Delete</a></span>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cost)
+                </td>
+                <td>
+                    <span class="edit-icon"><a asp-action="Edit" asp-route-id="@item.JobId"><img src="~/images/icons/edit.png" /></a></span>
+                    <span class="edit-text"><a asp-action="Edit" asp-route-id="@item.JobId">Edit |</a></span>
+                    <span class="details-icon"><a asp-action="Details" asp-route-id="@item.JobId"><img src="~/images/icons/details.png" /></a></span>
+                    <span class="details-text"><a asp-action="Details" asp-route-id="@item.JobId">Details |</a></span>
+                    <span class="delete-icon"><a asp-action="Delete" asp-route-id="@item.JobId"><img src="~/images/icons/delete.png" /></a></span>
+                    <span class="delete-text"><a asp-action="Delete" asp-route-id="@item.JobId">Delete</a></span>
 
-                    </td>
-                </tr>
+                </td>
+                <td>
+                    <a asp-action="Receipt" asp-route-id="@item.JobId" class="btn btn-sm btn-primary">Create Receipt</a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>
