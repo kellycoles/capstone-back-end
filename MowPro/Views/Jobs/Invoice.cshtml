@@ -10,75 +10,95 @@
         visibility: hidden;
     }
 
+    table {
+        width: 35%;
+        background:white;
+    }
+
+    th {
+        width: 10%;
+    }
+
+    td {
+        width: 25%;
+    }
 </style>
 <h1 class="h1">Invoice</h1>
+<h3> @Html.DisplayFor(model => model.Customer.FullName)</h3>
+<h4 style="color:#E74C3C">Total Due: @Html.DisplayFor(model => model.Cost)</h4>
 <hr />
-<div>
-    <h3> @Html.DisplayFor(model => model.Customer.FullName)</h3>
-
-    <dl class="row">
-        <dt class="col-sm-2">
-            Invoice Number
-        </dt>
-        <dd class="col-sm-10">
+<table class="table table-bordered .table-condensed">
+    <tr>
+        <th>
+            Invoice Number:
+        </th>
+        <td>
             @Html.DisplayFor(model => model.JobId)
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-        <dd class="col-sm-10">
+        </td>
+    </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Date):
+        </th>
+        <td>
             @Html.DisplayFor(model => model.Date)
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Customer)
-        </dt>
-        <dd class="col-sm-10">
+        </td>
+    </tr>
+
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Customer):
+        </th>
+        <td>
             @Html.DisplayFor(model => model.Customer.FullName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Customer.StreetAddress)
-        </dt>
-        <dd class="col-sm-10">
+        </td>
+    </tr>
+
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Customer.StreetAddress):
+        </th>
+        <td>
             @Html.DisplayFor(model => model.Customer.StreetAddress)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Service)
-        </dt>
-        <dd class="col-sm-10">
+        </td>
+    </tr>
+
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Service):
+        </th>
+        <td>
             @Html.DisplayFor(model => model.Service.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Service.Description)
-        </dt>
-        <dd class="col-sm-10">
+        </td>
+    </tr>
+
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Service.Description):
+        </th>
+        <td style="word-wrap: break-word;min-width: 25px;max-width: 25px;">
             @Html.DisplayFor(model => model.Service.Description)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Notes)
-        </dt>
-        <dd class="col-sm-10">
+        </td>
+    </tr>
+
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Notes):
+        </th>
+        <td style="word-wrap: break-word;min-width: 25px;max-width: 25px;">
             @Html.DisplayFor(model => model.Notes)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Cost)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Cost)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Paid)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Paid)
-        </dd>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Amount Due:
+        </th>
+        <td>
+            <mark> @Html.DisplayFor(model => model.Cost)</mark>
+        </td>
+    </tr>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IsComplete)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IsComplete)
-        </dd>
-
-    </dl>
-</div>
+</table>
 
 
 
