@@ -2,7 +2,7 @@
 @model MowPro.Models.Job
 
 @{
-    ViewData["Title"] = "Invoice";
+    ViewData["Title"] = "Receipt";
 }
 <style>
     .footer,
@@ -12,7 +12,7 @@
 
     table {
         width: 35%;
-        background:white;
+        background: white;
     }
 
     th {
@@ -23,9 +23,9 @@
         width: 25%;
     }
 </style>
-<h1 class="h1">Invoice</h1>
+<h1 class="h1">Receipt</h1>
 <h3> @Html.DisplayFor(model => model.Customer.FullName)</h3>
-<h4 style="color:#E74C3C">Total Due: @Html.DisplayFor(model => model.Cost)</h4>
+<h4>Thank you for your recent payment!</h4>
 <hr />
 <table class="table table-bordered .table-condensed">
     <tr>
@@ -91,13 +91,15 @@
     </tr>
     <tr>
         <th>
-            Amount Due:
+            @Html.DisplayNameFor(model => model.Cost):
         </th>
         <td>
-            <mark> @Html.DisplayFor(model => model.Cost)</mark>
+             @Html.DisplayFor(model => model.Cost) &nbsp; <span style="color:#E74C3C">Paid in Full</span>
         </td>
     </tr>
 </table>
 
 <a href="javascript:history.back()">Back to List</a>
+
+
 
