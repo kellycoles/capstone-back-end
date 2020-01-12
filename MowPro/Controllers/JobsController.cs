@@ -330,5 +330,26 @@ namespace MowPro.Controllers
         {
             return _context.Job.Any(e => e.JobId == id);
         }
+
+        // invoice
+        public async Task<IActionResult> Invoice(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var job = await _context.Job
+             .Include(c => c.Customer)
+             .Include(c => c.Service)
+
+             .FirstOrDefaultAsync(m => m.JobId == id);
+
+            if (job == null)
+            {
+                return NotFound();
+            }
+
+            return View(job);
+        }
     }
 }

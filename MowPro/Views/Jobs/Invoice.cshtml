@@ -1,0 +1,104 @@
+﻿
+@model MowPro.Models.Job
+
+@{
+    ViewData["Title"] = "Invoice";
+}
+<style>
+    .footer,
+    .top-link {
+        visibility: hidden;
+    }
+
+    table {
+        width: 35%;
+        background:white;
+    }
+
+    th {
+        width: 10%;
+    }
+
+    td {
+        width: 25%;
+    }
+</style>
+<h1 class="h1">Invoice</h1>
+<h3> @Html.DisplayFor(model => model.Customer.FullName)</h3>
+<h4 style="color:#E74C3C">Total Due: @Html.DisplayFor(model => model.Cost)</h4>
+<hr />
+<table class="table table-bordered .table-condensed">
+    <tr>
+        <th>
+            Invoice Number:
+        </th>
+        <td>
+            @Html.DisplayFor(model => model.JobId)
+        </td>
+    </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Date):
+        </th>
+        <td>
+            @Html.DisplayFor(model => model.Date)
+        </td>
+    </tr>
+
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Customer):
+        </th>
+        <td>
+            @Html.DisplayFor(model => model.Customer.FullName)
+        </td>
+    </tr>
+
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Customer.StreetAddress):
+        </th>
+        <td>
+            @Html.DisplayFor(model => model.Customer.StreetAddress)
+        </td>
+    </tr>
+
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Service):
+        </th>
+        <td>
+            @Html.DisplayFor(model => model.Service.Name)
+        </td>
+    </tr>
+
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Service.Description):
+        </th>
+        <td style="word-wrap: break-word;min-width: 25px;max-width: 25px;">
+            @Html.DisplayFor(model => model.Service.Description)
+        </td>
+    </tr>
+
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Notes):
+        </th>
+        <td style="word-wrap: break-word;min-width: 25px;max-width: 25px;">
+            @Html.DisplayFor(model => model.Notes)
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Amount Due:
+        </th>
+        <td>
+            <mark> @Html.DisplayFor(model => model.Cost)</mark>
+        </td>
+    </tr>
+
+</table>
+
+
+

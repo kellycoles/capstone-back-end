@@ -80,7 +80,9 @@
                         <span class="delete-icon"><a asp-action="Delete" asp-route-id="@item.JobId"><img src="~/images/icons/delete.png" /></a></span>
                         <span class="delete-text"><a asp-action="Delete" asp-route-id="@item.JobId">Delete</a></span>
                     </td>
-
+                    <td>
+                        <a asp-action="Invoice" asp-route-id="@item.JobId" class="btn btn-sm btn-primary">Create Invoice</a>
+                    </td>
                 </tr>
             }
         </tbody>
