@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,12 +13,23 @@ using Microsoft.Extensions.Configuration;
 using MowPro.Data;
 using MowPro.Models;
 using MowPro.Models.ViewModels;
+using Rotativa.AspNetCore;
 
 namespace MowPro.Controllers
 {
     public class JobsController : Controller
     {
-  
+
+        //private readonly IWebHostEnvironment _env;
+
+        //public JobsController(IWebHostEnvironment env)
+        //{
+        //    _env = env;
+        //}
+
+
+
+
 
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
@@ -349,7 +361,7 @@ namespace MowPro.Controllers
                 return NotFound();
             }
 
-            return View(job);
+            return new ViewAsPdf(job);
         }
 
         // Receipt
@@ -370,7 +382,7 @@ namespace MowPro.Controllers
                 return NotFound();
             }
 
-            return View(job);
+            return new ViewAsPdf(job);
         }
     }
 }

@@ -1,5 +1,8 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
+
+/*Nav===================================================================================*/
+
 /*navbar div*/
 .navbar {
     width: 100%;
@@ -81,7 +84,7 @@ a#personal-data.nav-link.active {
     background: #528f24;
 }
 
-/*multi level dropdown===================================================================================*/
+/*multi level dropdown*/
 
 .dropdown-submenu {
     position: relative;
@@ -131,12 +134,8 @@ a#personal-data.nav-link.active {
             border-radius: 6px 0 6px 6px;
         }
 
+/*Body==============================================================================*/
 
-/* End nav styles
----------------------------------------------------*/
-
-/*Body
--------------------------------------------------- */
 html {
     position: relative;
     min-height: 100%;
@@ -168,7 +167,8 @@ h1 {
 }
 .h1 {
     margin-top: 150px; /*required to clear fixed nav.
-        couldn't use element h1 because some pages have the above search box as top element*/
+        couldn't use element h1 because some pages
+        have the above search box as top element*/
 }
 .createLink {
     margin-top: 20px;
@@ -203,7 +203,7 @@ a {
     }
 
 
-/*Footer*/
+/*Footer=================================================================*/
 .footer {
     /*no-repeat center*/
     background: url(../images/footer4.png) no-repeat center;
@@ -222,8 +222,8 @@ a {
 }
 
 /*Media Queries
-    ===========================================
-*/
+    ==================================================================*/
+
 
 @media (min-width: 768px) {
     html {

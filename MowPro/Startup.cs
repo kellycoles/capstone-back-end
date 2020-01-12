@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MowPro.Models;
+using Rotativa.AspNetCore;
 
 namespace MowPro
 {
@@ -66,6 +67,8 @@ namespace MowPro
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+            RotativaConfiguration.Setup("wwwroot/", "Rotativa");
+
         }
     }
 }
