@@ -2,11 +2,11 @@
 
 @{
     ViewData["Title"] = "Index";
-}
-<style>
-    
 
-</style>
+}
+@*@{
+    var photoPath = "~/images/houses/" + (Model.PhotoPath ?? "noImage.jpeg");
+}*@
 @* search *@
 <div class="searchBar">
     <form asp-action="Index" method="get">
@@ -38,52 +38,53 @@
 @if (Model.Count() != 0)
 
 {
-<div class="card-deck">
-    @foreach (var item in Model)
-    {
+    <div class="card-deck">
+        @foreach (var item in Model)
+        {
+            var photoPath = "~/images/houses/" + (item.Customer.PhotoPath ?? "noImage.jpeg");
 
-        <div class="card  mb-4 ml-auto mr-auto" style="min-width: 18rem; max-width:30.5%;">
-            <iframe class="card-img-top" style="border:none" src="@($"https://maps.google.com/maps?q={item.Customer.StreetAddress}&t=&z=13&ie=UTF8&iwloc=&output=embed")"></iframe>
-            <div class="card-body">
-                <h5 class="card-title"style="color:#528F24;"> @Html.DisplayFor(modelItem => item.Service.Name)</h5>
-                <dl class="row">
-                    <dt class="col-sm-6 card-text">@Html.DisplayNameFor(model => model.Date):</dt>
-                    <dd class="col-sm-6 card-text">@Html.DisplayFor(modelItem => item.Date)</dd>
-                    <dt class="col-sm-6 card-text">@Html.DisplayNameFor(model => model.Customer):</dt>
-                    <dd class="col-sm-6 card-text"><a asp-action="Details" asp-controller="Customers" asp-route-id="@item.CustomerId">@Html.DisplayFor(modelItem => item.Customer.FullName)</a></dd>
-                    <dt class="col-sm-6 card-text">@Html.DisplayNameFor(model => model.Cost):</dt>
-                    <dd class="col-sm-6 card-text">@Html.DisplayFor(modelItem => item.Cost)</dd>
-                    <dt class="col-sm-6 card-text">@Html.DisplayNameFor(model => model.Notes):</dt>
-                    <dd class="col-sm-6 card-text">@Html.DisplayFor(modelItem => item.Notes)</dd>
-                </dl>
-                <a asp-action="CompleteJob" asp-route-id="@item.JobId" class="btn btn-sm btn-primary">Complete Job</a>
+            <div class="card  mb-4 ml-auto mr-auto" style="min-width: 18rem; max-width:30.5%;">
+                <img class="card-img-top imageThumbnail" src="@photoPath" asp-append-version="true" />
+                <div class="card-body">
+                    <h5 class="card-title" style="color:#528F24;"> @Html.DisplayFor(modelItem => item.Service.Name)</h5>
+                    <dl class="row">
+                        <dt class="col-sm-6 card-text">@Html.DisplayNameFor(model => model.Date):</dt>
+                        <dd class="col-sm-6 card-text">@Html.DisplayFor(modelItem => item.Date)</dd>
+                        <dt class="col-sm-6 card-text">@Html.DisplayNameFor(model => model.Customer):</dt>
+                        <dd class="col-sm-6 card-text"><a asp-action="Details" asp-controller="Customers" asp-route-id="@item.CustomerId">@Html.DisplayFor(modelItem => item.Customer.FullName)</a></dd>
+                        <dt class="col-sm-6 card-text"> @Html.DisplayNameFor(model => model.Customer.StreetAddress):</dt>
+                        <dd><a href="@($"https://maps.google.com/maps?q={item.Customer.StreetAddress}")" target="_blank"> @Html.DisplayFor(modelItem => item.Customer.StreetAddress)</a> </dd>
+                        <dt class="col-sm-6 card-text">@Html.DisplayNameFor(model => model.Cost):</dt>
+                        <dd class="col-sm-6 card-text">@Html.DisplayFor(modelItem => item.Cost)</dd>
+                        <dt class="col-sm-6 card-text">@Html.DisplayNameFor(model => model.Notes):</dt>
+                        <dd class="col-sm-6 card-text">@Html.DisplayFor(modelItem => item.Notes)</dd>
+                    </dl>
+                    <a asp-action="CompleteJob" asp-route-id="@item.JobId" class="btn btn-sm btn-primary">Complete Job</a>
 
+                </div>
+                <div class="card-footer  text-center">
+                    <small class="text-muted">
+                        <span class="edit-icon"><a asp-action="Edit" asp-route-id="@item.JobId"><img src="~/images/icons/edit.png" /></a></span>
+                        <span class="edit-text"><a asp-action="Edit" asp-route-id="@item.JobId">Edit |</a></span>
+                        <span class="details-icon"><a asp-action="Details" asp-route-id="@item.JobId"><img src="~/images/icons/details.png" /></a></span>
+                        <span class="details-text"><a asp-action="Details" asp-route-id="@item.JobId">Details |</a></span>
+                        <span class="delete-icon"><a asp-action="Delete" asp-route-id="@item.JobId"><img src="~/images/icons/delete.png" /></a></span>
+                        <span class="delete-text"><a asp-action="Delete" asp-route-id="@item.JobId">Delete</a></span>
+                    </small>
+                </div>
             </div>
-            <div class="card-footer  text-center">
-                <small class="text-muted">
-                    <span class="edit-icon"><a asp-action="Edit" asp-route-id="@item.JobId"><img src="~/images/icons/edit.png" /></a></span>
-                    <span class="edit-text"><a asp-action="Edit" asp-route-id="@item.JobId">Edit |</a></span>
-                    <span class="details-icon"><a asp-action="Details" asp-route-id="@item.JobId"><img src="~/images/icons/details.png" /></a></span>
-                    <span class="details-text"><a asp-action="Details" asp-route-id="@item.JobId">Details |</a></span>
-                    <span class="delete-icon"><a asp-action="Delete" asp-route-id="@item.JobId"><img src="~/images/icons/delete.png" /></a></span>
-                    <span class="delete-text"><a asp-action="Delete" asp-route-id="@item.JobId">Delete</a></span>
-                </small>
-            </div>
-        </div>
 
-        @* link to street address google maps
-            <th>
-            @Html.DisplayNameFor(model => model.Customer.StreetAddress)
-        </th>
-        <td>
-            <a href="@($"https://maps.google.com/maps?q={item.Customer.StreetAddress}")" target="_blank"> @Html.DisplayFor(modelItem => item.Customer.StreetAddress)</a>
-        </td>*@
+            @*<iframe class="card-img-top" style="border:none" src="@($"https://maps.google.com/maps?q={item.Customer.StreetAddress}&t=&z=13&ie=UTF8&iwloc=&output=embed")"></iframe>*@
 
-    }
 
-</div>
+
+
+
+        }
+
+    </div>
 }
-else 
+else
 {
     <p class="alert alert-warning">Sorry. There are no jobs matching your search.</p>
 }

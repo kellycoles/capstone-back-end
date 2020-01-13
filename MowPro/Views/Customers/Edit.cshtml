@@ -1,7 +1,8 @@
-﻿@model MowPro.Models.Customer
+﻿@model MowPro.Models.ViewModels.CustomerEditViewModel
 
 @{
     ViewData["Title"] = "Edit Customer";
+     var photoPath = "~/images/houses/" + (Model.ExistingPhotoPath ?? "noImage.jpeg");
 }
 
 <h1 class="h1">Edit Customer</h1>
@@ -10,9 +11,10 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form enctype="multipart/form-data" asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="CustomerId" />
+            <input type="hidden" asp-for="id" />
+            <input type="hidden" asp-for="ExistingPhotoPath" />
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />
@@ -50,6 +52,16 @@
                 <span asp-validation-for="Preferences" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Photo" class="control-label"></label>
+                <div class="custom-file">
+                    <input asp-for="Photo" class="form-control  custom-file-input" />
+                    <label class="custom-file-label">Click here to change photo...</label>
+                </div>
+            </div>
+            <div>
+                <img width="300" height="200" style="margin-bottom:20px;" src="@photoPath" asp-append-version="true" />
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" /> <a class="btn btn-outline-secondary" href="javascript:history.back()">Cancel</a>
             </div>
         </form>
@@ -58,5 +70,13 @@
 
 
 @section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(fileName);
+            });
+        });
+    </script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

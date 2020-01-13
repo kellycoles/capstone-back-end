@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MowPro.Data;
 using MowPro.Models;
+using MowPro.Models.ViewModels;
 
 namespace MowPro.Controllers
 {
@@ -16,11 +19,14 @@ namespace MowPro.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IWebHostEnvironment hostingEnvironment;
+
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
-        public CustomersController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public CustomersController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IWebHostEnvironment hostingEnvironment)
         {
             _context = context;
             _userManager = userManager;
+            this.hostingEnvironment = hostingEnvironment;
         }
 
         // GET: Customers
@@ -66,25 +72,42 @@ namespace MowPro.Controllers
             return View();
         }
 
-        // POST: Customers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CustomerId,FirstName,LastName,StreetAddress,City,Email,PhoneNumber,Preferences,UserId")] Customer customer)
+        public async Task<IActionResult> Create(CustomerCreateViewModel model)
         {
             //This UserId is the property in Customers. We are ignoring for now because we dont want to add it to a new customer 
             ModelState.Remove("UserId");
             if (ModelState.IsValid)
             {
+                string uniqueFileName = null;
+                if(model.Photo !=null)
+                {
+                    string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images/houses");
+                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    model.Photo.CopyTo(new FileStream(filePath,FileMode.Create));
+                }
                 var user = await _userManager.GetUserAsync(HttpContext.User);
-                customer.UserId = user.Id;
-                _context.Add(customer);
+                Customer newCustomer = new Customer
+                {
+                    UserId = user.Id,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    StreetAddress = model.StreetAddress,
+                    City = model.City,
+                    Email = model.Email,
+                    PhoneNumber = model.PhoneNumber,
+                    Preferences = model.Preferences,
+                    PhotoPath = uniqueFileName
+                };
+                _context.Add(newCustomer);
                 await _context.SaveChangesAsync();
-                TempData["Message"] = "Your customer was successfully added!";
-                return RedirectToAction(nameof(Index));
+
+                return RedirectToAction("details", new { id = newCustomer.CustomerId });
+
             }
-            return View(customer);
+            return View(model);
         }
 
         // GET: Customers/Edit/5
@@ -96,11 +119,22 @@ namespace MowPro.Controllers
             }
 
             var customer = await _context.Customer.FindAsync(id);
+            CustomerEditViewModel customerEditViewModel = new CustomerEditViewModel
+            {
+                FirstName = customer.FirstName,
+                LastName = customer.LastName,
+                StreetAddress = customer.StreetAddress,
+                City = customer.City,
+                Email = customer.Email,
+                PhoneNumber = customer.PhoneNumber,
+                Preferences = customer.Preferences,
+                ExistingPhotoPath = customer.PhotoPath
+            };
             if (customer == null)
             {
                 return NotFound();
             }
-            return View(customer);
+            return View(customerEditViewModel);
         }
 
         // POST: Customers/Edit/5
@@ -108,38 +142,49 @@ namespace MowPro.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CustomerId,FirstName,LastName,StreetAddress,City,Email,PhoneNumber,Preferences,UserId")] Customer customer)
-        {
-            if (id != customer.CustomerId)
-            {
-                return NotFound();
-            }
-            ModelState.Remove("UserId");
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                      var user = await _userManager.GetUserAsync(HttpContext.User);
-                      customer.UserId = user.Id;
-                    _context.Update(customer);
-                    await _context.SaveChangesAsync();
-                    TempData["Message"] = "Your customer was successfully edited!";
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CustomerExists(customer.CustomerId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(customer);
-        }
+        //public async Task<IActionResult> Edit(CustomerEditViewModel model)
+        //{
+        //    //This UserId is the property in Customers. We are ignoring for now because we dont want to add it to a new customer 
+        //    ModelState.Remove("UserId");
+        //    if (ModelState.IsValid)
+        //    {
+        //        Customer customer = await _context.Customer.FindAsync(model.id);
+        //        customer.FirstName = model.FirstName;
+        //        customer.LastName = model.LastName;
+        //        customer.StreetAddress = model.StreetAddress;
+        //        customer.City = model.City;
+        //        customer.Email = model.Email;
+        //        customer.PhoneNumber = model.PhoneNumber;
+        //        customer.Preferences = model.Preferences;
+        //        string uniqueFileName = null;
+        //        if (model.Photo != null)
+        //        {
+        //            string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images/houses");
+        //            uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+        //            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+        //            model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+        //        }
+        //        var user = await _userManager.GetUserAsync(HttpContext.User);
+        //        Customer newCustomer = new Customer
+        //        {
+        //            UserId = user.Id,
+        //            FirstName = model.FirstName,
+        //            LastName = model.LastName,
+        //            StreetAddress = model.StreetAddress,
+        //            City = model.City,
+        //            Email = model.Email,
+        //            PhoneNumber = model.PhoneNumber,
+        //            Preferences = model.Preferences,
+        //            PhotoPath = uniqueFileName
+        //        };
+        //        _context.Add(newCustomer);
+        //        await _context.SaveChangesAsync();
+
+        //        return RedirectToAction("details", new { id = newCustomer.CustomerId });
+
+        //    }
+        //    return View(model);
+        //}
 
         // GET: Customers/Delete/5
         public async Task<IActionResult> Delete(int? id)

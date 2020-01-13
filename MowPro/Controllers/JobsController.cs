@@ -20,17 +20,6 @@ namespace MowPro.Controllers
     public class JobsController : Controller
     {
 
-        //private readonly IWebHostEnvironment _env;
-
-        //public JobsController(IWebHostEnvironment env)
-        //{
-        //    _env = env;
-        //}
-
-
-
-
-
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
