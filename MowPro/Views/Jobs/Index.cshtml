@@ -43,7 +43,7 @@
         {
             var photoPath = "~/images/houses/" + (item.Customer.PhotoPath ?? "noImage.jpeg");
 
-            <div class="card  mb-4 ml-auto mr-auto" style="min-width: 18rem; max-width:30.5%;">
+            <div class="card  mb-4 ml-auto mr-auto" style="min-width: 18rem; max-width:25.5%;">
                 <img class="card-img-top imageThumbnail" src="@photoPath" asp-append-version="true" />
                 <div class="card-body">
                     <h5 class="card-title" style="color:#528F24;"> @Html.DisplayFor(modelItem => item.Service.Name)</h5>
@@ -86,5 +86,5 @@
 }
 else
 {
-    <p class="alert alert-warning">Sorry. There are no jobs matching your search.</p>
+<p class="alert alert-warning">Sorry. There are no records to display.</p>
 }

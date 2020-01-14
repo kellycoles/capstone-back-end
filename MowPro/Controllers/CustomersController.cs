@@ -81,14 +81,7 @@ namespace MowPro.Controllers
             ModelState.Remove("UserId");
             if (ModelState.IsValid)
             {
-                string uniqueFileName = null;
-                if(model.Photo !=null)
-                {
-                    string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images/houses");
-                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    model.Photo.CopyTo(new FileStream(filePath,FileMode.Create));
-                }
+                string uniqueFileName = ProcessUploadedFile(model);
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 Customer newCustomer = new Customer
                 {
@@ -138,7 +131,7 @@ namespace MowPro.Controllers
             return View(customerEditViewModel);
         }
 
-        POST: Customers/Edit/5
+        //POST: Customers/Edit/5
  
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -156,37 +149,45 @@ namespace MowPro.Controllers
                 customer.Email = model.Email;
                 customer.PhoneNumber = model.PhoneNumber;
                 customer.Preferences = model.Preferences;
-                string uniqueFileName = null;
                 if (model.Photo != null)
                 {
-                    string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images/houses");
-                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                    if (model.ExistingPhotoPath != null)
+                    {
+                      string filePath = Path.Combine(hostingEnvironment.WebRootPath,
+                           "images/houses", model.ExistingPhotoPath);
+                        System.IO.File.Delete(filePath);
+                    }
+                    customer.PhotoPath = ProcessUploadedFile(model);
                 }
                 var user = await _userManager.GetUserAsync(HttpContext.User);
-                Customer newCustomer = new Customer
-                {
-                    UserId = user.Id,
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    StreetAddress = model.StreetAddress,
-                    City = model.City,
-                    Email = model.Email,
-                    PhoneNumber = model.PhoneNumber,
-                    Preferences = model.Preferences,
-                    PhotoPath = uniqueFileName
-                };
-                _context.Add(newCustomer);
+            
+                _context.Update(customer);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("details", new { id = newCustomer.CustomerId });
+                return RedirectToAction("index");
 
             }
             return View(model);
         }
 
-        GET: Customers/Delete/5
+        private string ProcessUploadedFile(CustomerCreateViewModel model)
+        {
+            string uniqueFileName = null;
+            if (model.Photo != null)
+            {
+                string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images/houses");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using(var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.Photo.CopyTo(fileStream);
+                }
+            }
+
+            return uniqueFileName;
+        }
+
+        // GET: Customers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
