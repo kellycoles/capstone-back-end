@@ -201,7 +201,10 @@ a {
     a:hover {
         color: #2C520B;
     }
-
+.imageThumbnail {
+    height:200px;
+    width: auto;
+}
 
 /*Footer=================================================================*/
 .footer {

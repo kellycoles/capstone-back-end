@@ -20,17 +20,6 @@ namespace MowPro.Controllers
     public class JobsController : Controller
     {
 
-        //private readonly IWebHostEnvironment _env;
-
-        //public JobsController(IWebHostEnvironment env)
-        //{
-        //    _env = env;
-        //}
-
-
-
-
-
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
@@ -55,7 +44,9 @@ namespace MowPro.Controllers
                 applicationDbContext = _context.Job
                .Include(c => c.Customer)
                .Include(c => c.Service).OrderBy(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete == false)
-               .Where(c => c.Customer.FirstName.Contains(searchString) || c.Customer.LastName.Contains(searchString) || c.Service.Name.Contains(searchString));
+               .Where(c => c.Customer.FirstName.Contains(searchString) || c.Customer.LastName.Contains(searchString)
+               || c.Customer.StreetAddress.Contains(searchString)
+               || c.Service.Name.Contains(searchString) || c.Service.Description.Contains(searchString) || c.Notes.Contains(searchString));
             }
             
                 return View(await applicationDbContext.ToListAsync());
@@ -72,7 +63,8 @@ namespace MowPro.Controllers
                 applicationDbContext = _context.Job
                                 .Include(c => c.Customer)
                                 .Include(c => c.Service).OrderByDescending(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete && j.Paid == true)
-                                .Where(c => c.Customer.FirstName.Contains(searchString) || c.Customer.LastName.Contains(searchString));
+                                .Where(c => c.Customer.FirstName.Contains(searchString) || c.Customer.LastName.Contains(searchString) 
+                                || c.Service.Name.Contains(searchString));
 
             }
     
@@ -91,7 +83,8 @@ namespace MowPro.Controllers
                 applicationDbContext = _context.Job
                                 .Include(c => c.Customer)
                                 .Include(c => c.Service).OrderBy(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete && j.Paid == false)
-                                .Where(c => c.Customer.FirstName.Contains(searchString) || c.Customer.LastName.Contains(searchString));
+                                .Where(c => c.Customer.FirstName.Contains(searchString) || c.Customer.LastName.Contains(searchString)
+                               || c.Service.Name.Contains(searchString));
 
             }
             return View(await applicationDbContext.ToListAsync());

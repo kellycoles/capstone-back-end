@@ -1,16 +1,15 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MowPro.Models
+namespace MowPro.Models.ViewModels
 {
-    public class Customer
+    public class CustomerCreateViewModel
     {
-        [Key]
-        public int CustomerId { get; set; }
 
         [Required]
         [MaxLength(20)]
@@ -45,7 +44,7 @@ namespace MowPro.Models
 
         public string Preferences { get; set; }
 
-        public string PhotoPath { get; set; }
+        public IFormFile Photo { get; set; }
 
         [Required]
         public string UserId { get; set; }
@@ -54,3 +53,4 @@ namespace MowPro.Models
 
     }
 }
+

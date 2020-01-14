@@ -3,7 +3,9 @@
 @{
     ViewData["Title"] = "Customer Details";
 }
-
+@{
+    var photoPath = "~/images/houses/" + (Model.PhotoPath ?? "noImage.jpeg");
+}
 <h1 class="h1">Customer Details</h1>
 <hr />
 <div>
@@ -42,11 +44,14 @@
             @Html.DisplayFor(model => model.Preferences)
         </dd>
     </dl>
+    <div>
+        <img width="300" height="200" style="margin-bottom:20px;" src ="@photoPath" asp-append-version="true"/>
+    </div>
     <div class="map">
         <iframe width="300" height="200" style="border:none" src="@($"https://maps.google.com/maps?q={Model.StreetAddress}&t=&z=13&ie=UTF8&iwloc=&output=embed")"></iframe>
     </div>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.CustomerId">Edit</a> |
-    <a href="javascript:history.back()">Back to List</a>
+    <a asp-action="Index">Back to List</a>
 </div>

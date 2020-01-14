@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MowPro.Data;
 using MowPro.Models;
+using MowPro.Models.ViewModels;
 
 namespace MowPro.Controllers
 {
@@ -16,11 +19,14 @@ namespace MowPro.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IWebHostEnvironment hostingEnvironment;
+
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
-        public CustomersController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public CustomersController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IWebHostEnvironment hostingEnvironment)
         {
             _context = context;
             _userManager = userManager;
+            this.hostingEnvironment = hostingEnvironment;
         }
 
         // GET: Customers
@@ -35,7 +41,8 @@ namespace MowPro.Controllers
             if (!String.IsNullOrEmpty(searchString))
             {
                 customers = _context.Customer.OrderBy(c => c.LastName).Include(p => p.User).Where(p => p.UserId == user.Id).Where
-                    (c => c.FirstName.Contains(searchString) || c.LastName.Contains(searchString));
+                    (c => c.FirstName.Contains(searchString) || c.LastName.Contains(searchString) || c.Email.Contains(searchString)
+                    || c.PhoneNumber.Contains(searchString));
             }
             
             return View(await customers.ToListAsync());
@@ -66,25 +73,35 @@ namespace MowPro.Controllers
             return View();
         }
 
-        // POST: Customers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CustomerId,FirstName,LastName,StreetAddress,City,Email,PhoneNumber,Preferences,UserId")] Customer customer)
+        public async Task<IActionResult> Create(CustomerCreateViewModel model)
         {
             //This UserId is the property in Customers. We are ignoring for now because we dont want to add it to a new customer 
             ModelState.Remove("UserId");
             if (ModelState.IsValid)
             {
+                string uniqueFileName = ProcessUploadedFile(model);
                 var user = await _userManager.GetUserAsync(HttpContext.User);
-                customer.UserId = user.Id;
-                _context.Add(customer);
+                Customer newCustomer = new Customer
+                {
+                    UserId = user.Id,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    StreetAddress = model.StreetAddress,
+                    City = model.City,
+                    Email = model.Email,
+                    PhoneNumber = model.PhoneNumber,
+                    Preferences = model.Preferences,
+                    PhotoPath = uniqueFileName
+                };
+                _context.Add(newCustomer);
                 await _context.SaveChangesAsync();
-                TempData["Message"] = "Your customer was successfully added!";
-                return RedirectToAction(nameof(Index));
+
+                return RedirectToAction("details", new { id = newCustomer.CustomerId });
+
             }
-            return View(customer);
+            return View(model);
         }
 
         // GET: Customers/Edit/5
@@ -96,49 +113,78 @@ namespace MowPro.Controllers
             }
 
             var customer = await _context.Customer.FindAsync(id);
+            CustomerEditViewModel customerEditViewModel = new CustomerEditViewModel
+            {
+                FirstName = customer.FirstName,
+                LastName = customer.LastName,
+                StreetAddress = customer.StreetAddress,
+                City = customer.City,
+                Email = customer.Email,
+                PhoneNumber = customer.PhoneNumber,
+                Preferences = customer.Preferences,
+                ExistingPhotoPath = customer.PhotoPath
+            };
             if (customer == null)
             {
                 return NotFound();
             }
-            return View(customer);
+            return View(customerEditViewModel);
         }
 
-        // POST: Customers/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //POST: Customers/Edit/5
+ 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CustomerId,FirstName,LastName,StreetAddress,City,Email,PhoneNumber,Preferences,UserId")] Customer customer)
+        public async Task<IActionResult> Edit(CustomerEditViewModel model)
         {
-            if (id != customer.CustomerId)
-            {
-                return NotFound();
-            }
+            //This UserId is the property in Customers. We are ignoring for now because we dont want to add it to a new customer 
             ModelState.Remove("UserId");
             if (ModelState.IsValid)
             {
-                try
+                Customer customer = await _context.Customer.FindAsync(model.id);
+                customer.FirstName = model.FirstName;
+                customer.LastName = model.LastName;
+                customer.StreetAddress = model.StreetAddress;
+                customer.City = model.City;
+                customer.Email = model.Email;
+                customer.PhoneNumber = model.PhoneNumber;
+                customer.Preferences = model.Preferences;
+                if (model.Photo != null)
                 {
-                      var user = await _userManager.GetUserAsync(HttpContext.User);
-                      customer.UserId = user.Id;
-                    _context.Update(customer);
-                    await _context.SaveChangesAsync();
-                    TempData["Message"] = "Your customer was successfully edited!";
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CustomerExists(customer.CustomerId))
+                    if (model.ExistingPhotoPath != null)
                     {
-                        return NotFound();
+                      string filePath = Path.Combine(hostingEnvironment.WebRootPath,
+                           "images/houses", model.ExistingPhotoPath);
+                        System.IO.File.Delete(filePath);
                     }
-                    else
-                    {
-                        throw;
-                    }
+                    customer.PhotoPath = ProcessUploadedFile(model);
                 }
-                return RedirectToAction(nameof(Index));
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+            
+                _context.Update(customer);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("index");
+
             }
-            return View(customer);
+            return View(model);
+        }
+
+        private string ProcessUploadedFile(CustomerCreateViewModel model)
+        {
+            string uniqueFileName = null;
+            if (model.Photo != null)
+            {
+                string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images/houses");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using(var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.Photo.CopyTo(fileStream);
+                }
+            }
+
+            return uniqueFileName;
         }
 
         // GET: Customers/Delete/5
