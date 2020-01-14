@@ -41,7 +41,8 @@ namespace MowPro.Controllers
             if (!String.IsNullOrEmpty(searchString))
             {
                 customers = _context.Customer.OrderBy(c => c.LastName).Include(p => p.User).Where(p => p.UserId == user.Id).Where
-                    (c => c.FirstName.Contains(searchString) || c.LastName.Contains(searchString));
+                    (c => c.FirstName.Contains(searchString) || c.LastName.Contains(searchString) || c.Email.Contains(searchString)
+                    || c.PhoneNumber.Contains(searchString));
             }
             
             return View(await customers.ToListAsync());
@@ -137,56 +138,55 @@ namespace MowPro.Controllers
             return View(customerEditViewModel);
         }
 
-        // POST: Customers/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        POST: Customers/Edit/5
+ 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(CustomerEditViewModel model)
-        //{
-        //    //This UserId is the property in Customers. We are ignoring for now because we dont want to add it to a new customer 
-        //    ModelState.Remove("UserId");
-        //    if (ModelState.IsValid)
-        //    {
-        //        Customer customer = await _context.Customer.FindAsync(model.id);
-        //        customer.FirstName = model.FirstName;
-        //        customer.LastName = model.LastName;
-        //        customer.StreetAddress = model.StreetAddress;
-        //        customer.City = model.City;
-        //        customer.Email = model.Email;
-        //        customer.PhoneNumber = model.PhoneNumber;
-        //        customer.Preferences = model.Preferences;
-        //        string uniqueFileName = null;
-        //        if (model.Photo != null)
-        //        {
-        //            string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images/houses");
-        //            uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
-        //            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-        //            model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
-        //        }
-        //        var user = await _userManager.GetUserAsync(HttpContext.User);
-        //        Customer newCustomer = new Customer
-        //        {
-        //            UserId = user.Id,
-        //            FirstName = model.FirstName,
-        //            LastName = model.LastName,
-        //            StreetAddress = model.StreetAddress,
-        //            City = model.City,
-        //            Email = model.Email,
-        //            PhoneNumber = model.PhoneNumber,
-        //            Preferences = model.Preferences,
-        //            PhotoPath = uniqueFileName
-        //        };
-        //        _context.Add(newCustomer);
-        //        await _context.SaveChangesAsync();
+        public async Task<IActionResult> Edit(CustomerEditViewModel model)
+        {
+            //This UserId is the property in Customers. We are ignoring for now because we dont want to add it to a new customer 
+            ModelState.Remove("UserId");
+            if (ModelState.IsValid)
+            {
+                Customer customer = await _context.Customer.FindAsync(model.id);
+                customer.FirstName = model.FirstName;
+                customer.LastName = model.LastName;
+                customer.StreetAddress = model.StreetAddress;
+                customer.City = model.City;
+                customer.Email = model.Email;
+                customer.PhoneNumber = model.PhoneNumber;
+                customer.Preferences = model.Preferences;
+                string uniqueFileName = null;
+                if (model.Photo != null)
+                {
+                    string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images/houses");
+                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                }
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                Customer newCustomer = new Customer
+                {
+                    UserId = user.Id,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    StreetAddress = model.StreetAddress,
+                    City = model.City,
+                    Email = model.Email,
+                    PhoneNumber = model.PhoneNumber,
+                    Preferences = model.Preferences,
+                    PhotoPath = uniqueFileName
+                };
+                _context.Add(newCustomer);
+                await _context.SaveChangesAsync();
 
-        //        return RedirectToAction("details", new { id = newCustomer.CustomerId });
+                return RedirectToAction("details", new { id = newCustomer.CustomerId });
 
-        //    }
-        //    return View(model);
-        //}
+            }
+            return View(model);
+        }
 
-        // GET: Customers/Delete/5
+        GET: Customers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

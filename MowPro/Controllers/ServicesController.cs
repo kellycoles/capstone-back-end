@@ -32,7 +32,7 @@ namespace MowPro.Controllers
             var services =_context.Service.OrderBy(n => n.Name).Where(s => s.IsDeleted == false).Include(p => p.User).Where(p => p.UserId == user.Id);
             if (!String.IsNullOrEmpty(searchString))
             {
-               services = _context.Service.OrderBy(n => n.Name).Where(s => s.IsDeleted == false).Include(p => p.User).Where(p => p.UserId == user.Id).Where(n => n.Name.Contains(searchString));
+               services = _context.Service.OrderBy(n => n.Name).Where(s => s.IsDeleted == false).Include(p => p.User).Where(p => p.UserId == user.Id).Where(n => n.Name.Contains(searchString) || n.Description.Contains(searchString));
             }  
             return View(await services.ToListAsync());
         }
