@@ -163,6 +163,7 @@ namespace MowPro.Controllers
             
                 _context.Update(customer);
                 await _context.SaveChangesAsync();
+                TempData["Message"] = "Your job was successfully edited!";
 
                 return RedirectToAction("index");
 
@@ -170,22 +171,6 @@ namespace MowPro.Controllers
             return View(model);
         }
 
-        private string ProcessUploadedFile(CustomerCreateViewModel model)
-        {
-            string uniqueFileName = null;
-            if (model.Photo != null)
-            {
-                string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images/houses");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                using(var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    model.Photo.CopyTo(fileStream);
-                }
-            }
-
-            return uniqueFileName;
-        }
 
         // GET: Customers/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -219,6 +204,24 @@ namespace MowPro.Controllers
         private bool CustomerExists(int id)
         {
             return _context.Customer.Any(e => e.CustomerId == id);
+        }
+
+        // method for image upload
+        private string ProcessUploadedFile(CustomerCreateViewModel model)
+        {
+            string uniqueFileName = null;
+            if (model.Photo != null)
+            {
+                string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images/houses");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.Photo.CopyTo(fileStream);
+                }
+            }
+
+            return uniqueFileName;
         }
     }
 }
