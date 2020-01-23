@@ -4,9 +4,8 @@
     ViewData["Title"] = "Index";
 
 }
-@*@{
-    var photoPath = "~/images/houses/" + (Model.PhotoPath ?? "noImage.jpeg");
-}*@
+@{var job = ViewData["job"] as MowPro.Models.Job; }
+
 @* search *@
 <div class="searchBar">
     <form asp-action="Index" method="get">
@@ -60,7 +59,10 @@
                         <dd class="col-sm-6 card-text">@Html.DisplayFor(modelItem => item.Notes)</dd>
                     </dl>
                     <a asp-action="CompleteJob" asp-route-id="@item.JobId" class="btn btn-sm btn-primary">Complete Job</a>
-
+                      @*@if (job.Paid == false)
+                      {
+                          <p class="text-danger">* This customer has an outstanding balence</p>
+                      }*@
                 </div>
                 <div class="card-footer  text-center">
                     <small class="text-muted">
@@ -86,5 +88,5 @@
 }
 else
 {
-<p class="alert alert-warning">Sorry. There are no records to display.</p>
+    <p class="alert alert-warning">Sorry. There are no records to display.</p>
 }
