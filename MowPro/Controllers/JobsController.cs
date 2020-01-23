@@ -102,7 +102,7 @@ namespace MowPro.Controllers
              .Include(c => c.Service)
 
              .FirstOrDefaultAsync(m => m.JobId == id);
-
+            ViewData["job"] = job;
             if (job == null)
             {
                 return NotFound();
