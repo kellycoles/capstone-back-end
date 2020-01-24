@@ -26,6 +26,7 @@
         visibility:hidden;
     }
 </style>
+<img class="float-right" src="~/images/paid.png" />
 <h1 class="h1">Receipt</h1>
 <h3> @Html.DisplayFor(model => model.Customer.FullName)</h3>
 <h4>Thank you for your recent payment!</h4>
@@ -97,7 +98,7 @@
             @Html.DisplayNameFor(model => model.Cost):
         </th>
         <td>
-             @Html.DisplayFor(model => model.Cost) &nbsp; <span style="color:#E74C3C">Paid in Full</span>
+             @Html.DisplayFor(model => model.Cost) &nbsp; <img class="align-top" src="~/images/icons/check.png" />
         </td>
     </tr>
 </table>

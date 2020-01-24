@@ -45,10 +45,10 @@
         </dd>
     </dl>
     <div>
-        <img width="300" height="200" style="margin-bottom:20px;" src ="@photoPath" asp-append-version="true"/>
+        <img class="img-fluid" width="300" height="200" style="margin-bottom:20px;" src ="@photoPath" asp-append-version="true"/>
     </div>
-    <div class="map">
-        <iframe width="300" height="200" style="border:none" src="@($"https://maps.google.com/maps?q={Model.StreetAddress}&t=&z=13&ie=UTF8&iwloc=&output=embed")"></iframe>
+    <div>
+        <iframe class="img-fluid"width="300" height="300" style="border:none" src="@($"https://maps.google.com/maps?q={Model.StreetAddress}&t=&z=13&ie=UTF8&iwloc=&output=embed")"></iframe>
     </div>
 </div>
 <div>
