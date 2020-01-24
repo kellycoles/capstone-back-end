@@ -4,7 +4,6 @@
     ViewData["Title"] = "Index";
 
 }
-@{var job = ViewData["job"] as MowPro.Models.Job; }
 
 @* search *@
 <div class="searchBar">
@@ -59,10 +58,11 @@
                         <dd class="col-sm-6 card-text">@Html.DisplayFor(modelItem => item.Notes)</dd>
                     </dl>
                     <a asp-action="CompleteJob" asp-route-id="@item.JobId" class="btn btn-sm btn-primary">Complete Job</a>
-                      @*@if (job.Paid == false)
-                      {
-                          <p class="text-danger">* This customer has an outstanding balence</p>
-                      }*@
+                    @*Working on this...maybe make two queries in the controller
+                        @if (job.Paid == false)
+                        {
+                            <p class="text-danger">* This customer has an outstanding balence</p>
+                        }*@
                 </div>
                 <div class="card-footer  text-center">
                     <small class="text-muted">
@@ -75,12 +75,6 @@
                     </small>
                 </div>
             </div>
-
-            @*<iframe class="card-img-top" style="border:none" src="@($"https://maps.google.com/maps?q={item.Customer.StreetAddress}&t=&z=13&ie=UTF8&iwloc=&output=embed")"></iframe>*@
-
-
-
-
 
         }
 
