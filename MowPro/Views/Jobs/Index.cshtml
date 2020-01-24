@@ -4,9 +4,7 @@
     ViewData["Title"] = "Index";
 
 }
-@*@{
-    var photoPath = "~/images/houses/" + (Model.PhotoPath ?? "noImage.jpeg");
-}*@
+
 @* search *@
 <div class="searchBar">
     <form asp-action="Index" method="get">
@@ -60,7 +58,11 @@
                         <dd class="col-sm-6 card-text">@Html.DisplayFor(modelItem => item.Notes)</dd>
                     </dl>
                     <a asp-action="CompleteJob" asp-route-id="@item.JobId" class="btn btn-sm btn-primary">Complete Job</a>
-
+                    @*Working on this...maybe make two queries in the controller
+                        @if (job.Paid == false)
+                        {
+                            <p class="text-danger">* This customer has an outstanding balence</p>
+                        }*@
                 </div>
                 <div class="card-footer  text-center">
                     <small class="text-muted">
@@ -74,17 +76,11 @@
                 </div>
             </div>
 
-            @*<iframe class="card-img-top" style="border:none" src="@($"https://maps.google.com/maps?q={item.Customer.StreetAddress}&t=&z=13&ie=UTF8&iwloc=&output=embed")"></iframe>*@
-
-
-
-
-
         }
 
     </div>
 }
 else
 {
-<p class="alert alert-warning">Sorry. There are no records to display.</p>
+    <p class="alert alert-warning">Sorry. There are no records to display.</p>
 }

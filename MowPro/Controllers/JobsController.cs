@@ -38,6 +38,17 @@ namespace MowPro.Controllers
             var applicationDbContext = _context.Job
                 .Include(c => c.Customer)
                 .Include(c => c.Service).OrderBy(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete == false);
+            // working on this: I want to add a flag to jobs if the customer is delequent 
+            //List<Job> jobs = _context.Job.Include(c => c.Customer).ToList();
+            //List<Job> notPaid = new List<Job>();
+            //foreach (var j in jobs)
+            //{
+            //    if (j.Paid == false)
+            //    {
+            //        notPaid.Add(j.Customer);
+            //        ViewBag["notPaid"] = notPaid;
+            //    }
+            //}
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -47,9 +58,10 @@ namespace MowPro.Controllers
                .Where(c => c.Customer.FirstName.Contains(searchString) || c.Customer.LastName.Contains(searchString)
                || c.Customer.StreetAddress.Contains(searchString)
                || c.Service.Name.Contains(searchString) || c.Service.Description.Contains(searchString) || c.Notes.Contains(searchString));
+
             }
-            
-                return View(await applicationDbContext.ToListAsync());
+
+            return View(await applicationDbContext.ToListAsync());
         }
         public async Task<IActionResult> ClosedJobs(string searchString)
         {
@@ -63,11 +75,11 @@ namespace MowPro.Controllers
                 applicationDbContext = _context.Job
                                 .Include(c => c.Customer)
                                 .Include(c => c.Service).OrderByDescending(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete && j.Paid == true)
-                                .Where(c => c.Customer.FirstName.Contains(searchString) || c.Customer.LastName.Contains(searchString) 
+                                .Where(c => c.Customer.FirstName.Contains(searchString) || c.Customer.LastName.Contains(searchString)
                                 || c.Service.Name.Contains(searchString));
 
             }
-    
+
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -78,7 +90,7 @@ namespace MowPro.Controllers
             var applicationDbContext = _context.Job
                 .Include(c => c.Customer)
                 .Include(c => c.Service).OrderBy(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete && j.Paid == false);
-                  if (!String.IsNullOrEmpty(searchString))
+            if (!String.IsNullOrEmpty(searchString))
             {
                 applicationDbContext = _context.Job
                                 .Include(c => c.Customer)
@@ -185,7 +197,7 @@ namespace MowPro.Controllers
                 {
                     _context.Update(job);
                     await _context.SaveChangesAsync();
-                 
+
                     TempData["Message"] = "Your job was successfully edited!";
 
 
@@ -245,7 +257,7 @@ namespace MowPro.Controllers
         }
 
         // POST: Jobs/Complete Job/5
-       
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CompleteJob(int id, Job job)
