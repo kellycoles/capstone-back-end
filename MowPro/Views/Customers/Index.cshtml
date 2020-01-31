@@ -70,9 +70,9 @@
 
                     <td>
                         <span class="edit-icon"><a asp-action="Edit" asp-route-id="@item.CustomerId"><img src="~/images/icons/edit.png" /></a></span>
-                        <span class="edit-text"><a asp-action="Edit" asp-route-id="@item.CustomerId">Edit |</a></span> 
+                        <span class="edit-text"><a asp-action="Edit" asp-route-id="@item.CustomerId">Edit |</a></span>
                         <span class="details-icon"><a asp-action="Details" asp-route-id="@item.CustomerId"><img src="~/images/icons/details.png" /></a></span>
-                        <span class="details-text"><a asp-action="Details" asp-route-id="@item.CustomerId">Details |</a></span> 
+                        <span class="details-text"><a asp-action="Details" asp-route-id="@item.CustomerId">Details |</a></span>
                         <span class="delete-icon"><a asp-action="Delete" asp-route-id="@item.CustomerId"><img src="~/images/icons/delete.png" /></a></span>
                         <span class="delete-text"><a asp-action="Delete" asp-route-id="@item.CustomerId">Delete</a></span>
 
@@ -87,5 +87,12 @@
 
 else
 {
-<p class="alert alert-warning">Sorry. There are no records to display.</p>
+    <div>
+        <p class="lead alert alert-warning">
+            Sorry. There are no records to display.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </p>
+    </div>
 }

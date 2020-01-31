@@ -163,10 +163,10 @@ namespace MowPro.Controllers
             
                 _context.Update(customer);
                 await _context.SaveChangesAsync();
-                TempData["Message"] = "Your job was successfully edited!";
+                TempData["Message"] = "Your customer was successfully edited!";
 
-                return RedirectToAction("index");
-
+                //return RedirectToAction("index");
+                return RedirectToAction(nameof(Details), new { id = customer.CustomerId.ToString() });
             }
             return View(model);
         }

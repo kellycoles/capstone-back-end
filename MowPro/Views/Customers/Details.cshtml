@@ -7,6 +7,15 @@
     var photoPath = "~/images/houses/" + (Model.PhotoPath ?? "noImage.jpeg");
 }
 <h1 class="h1">Customer Details</h1>
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+        <p class="lead"> @TempData["Message"] </p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
 <hr />
 <div>
     <h3>@Html.DisplayFor(model => model.FullName)</h3>
@@ -45,13 +54,14 @@
         </dd>
     </dl>
     <div>
-        <img class="img-fluid" width="300" height="200" style="margin-bottom:20px;" src ="@photoPath" asp-append-version="true"/>
+        <img class="img-fluid" width="300" height="200" style="margin-bottom:20px;" src="@photoPath" asp-append-version="true" />
     </div>
     <div>
-        <iframe class="img-fluid"width="300" height="300" style="border:none" src="@($"https://maps.google.com/maps?q={Model.StreetAddress}&t=&z=13&ie=UTF8&iwloc=&output=embed")"></iframe>
+        <iframe class="img-fluid" width="300" height="300" style="border:none" src="@($"https://maps.google.com/maps?q={Model.StreetAddress}&t=&z=13&ie=UTF8&iwloc=&output=embed")"></iframe>
     </div>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.CustomerId">Edit</a> |
-    <a href="javascript:history.back()">Back to List</a>
+    <a href="javascript:history.back()">Back</a> |
+    <a asp-action="Index">All Customers</a>
 </div>

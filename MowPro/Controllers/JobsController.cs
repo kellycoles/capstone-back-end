@@ -38,18 +38,15 @@ namespace MowPro.Controllers
             var applicationDbContext = _context.Job
                 .Include(c => c.Customer)
                 .Include(c => c.Service).OrderBy(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete == false);
-            // working on this: I want to add a flag to jobs if the customer owes money
-            //List<Job> jobs = _context.Job.Include(c => c.Customer).ToList();
-            //List<Job> notPaid = new List<Job>();
-            //foreach (var j in jobs)
-            //{
-            //    if (j.Paid == false)
-            //    {
-            //        notPaid.Add(j.Customer);
-            //        ViewBag["notPaid"] = notPaid;
-            //    }
-            //}
 
+            //List<Job> jobs = _context.Job.Include(c => c.Customer).Where(j => j.IsComplete == false).ToList();
+            //ViewData["jobs"] = jobs;
+
+            //// working on this: I want to add a flag to jobs if the customer owes money
+            //List<Job> jobsNotPaid = _context.Job.Include(c => c.Customer).Where(j => j.Paid == false).ToList();
+            // ViewData["notPaid"] = jobsNotPaid;
+                
+            
             if (!String.IsNullOrEmpty(searchString))
             {
                 applicationDbContext = _context.Job
