@@ -1,5 +1,5 @@
 <img src="MowPro/wwwroot/images/red-logo.png" />
-========
+
 
 **MowPro** is a lawn care management application that allows users to create, read, update, and delete a list of customers, services provided, and jobs performed. It also affords users the ability to upload an image of the job site, see a dynamically generated map of the job site, and create PDF invoices and receipts for the customers, once the job is completed.
 
