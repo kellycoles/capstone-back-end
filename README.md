@@ -1,10 +1,9 @@
-<<<<<<< HEAD
+
 MowPro
 Lawn Care Management
 =======
 
 
->>>>>>> 734bb7f5c81c98d35192276370a04e40810479e8
 <img src="MowPro/wwwroot/images/red-logo.png" />
 
 MowPro
