@@ -37,6 +37,7 @@
 
 {
     <div class="card-deck">
+
         @foreach (var item in Model)
         {
             var photoPath = "~/images/houses/" + (item.Customer.PhotoPath ?? "noImage.jpeg");
@@ -44,6 +45,10 @@
             <div class="card  mb-4 ml-auto mr-auto" style="min-width: 18rem; max-width:25.5%;">
                 <img class="card-img-top imageThumbnail" src="@photoPath" asp-append-version="true" />
                 <div class="card-body">
+
+                    @if (item.Date < DateTime.Now)
+                    {
+                        <p class="text-danger">* Job Overdue</p>}
                     <h5 class="card-title" style="color:#528F24; text-align:center;"> @Html.DisplayFor(modelItem => item.Service.Name)</h5>
                     <dl class="row">
                         <dt class="col-sm-6 card-text">@Html.DisplayNameFor(model => model.Date):</dt>
@@ -51,20 +56,13 @@
                         <dt class="col-sm-6 card-text">@Html.DisplayNameFor(model => model.Customer):</dt>
                         <dd class="col-sm-6 card-text"><a asp-action="Details" asp-controller="Customers" asp-route-id="@item.CustomerId">@Html.DisplayFor(modelItem => item.Customer.FullName)</a></dd>
                         <dt class="col-sm-6 card-text"> @Html.DisplayNameFor(model => model.Customer.StreetAddress):</dt>
-                        <dd class="col-sm-6 card-text"><a href="@($"https://maps.google.com/maps?q={item.Customer.StreetAddress}")" target="_blank">@Html.DisplayFor(modelItem => item.Customer.StreetAddress)</a></dd>
+                        <dd class="col-sm-6 card-text"><a class="map" target="_blank" href="@($"https://maps.google.com/maps?q={item.Customer.StreetAddress}")">@Html.DisplayFor(modelItem => item.Customer.StreetAddress)</a></dd>
                         <dt class="col-sm-6 card-text">@Html.DisplayNameFor(model => model.Cost):</dt>
                         <dd class="col-sm-6 card-text">@Html.DisplayFor(modelItem => item.Cost)</dd>
                         <dt class="col-sm-6 card-text">@Html.DisplayNameFor(model => model.Notes):</dt>
                         <dd class="col-sm-6 card-text">@Html.DisplayFor(modelItem => item.Notes)</dd>
                     </dl>
                     <a asp-action="CompleteJob" asp-route-id="@item.JobId" class="btn btn-sm btn-primary">Complete Job</a>
-                    @*@{var jobs = ViewData["jobs"] as MowPro.Models.Job;
-                            var jobsNotPaid = ViewData["jobsNotPaid"] as MowPro.Models.Job;
-                            foreach(var j in jobs)
-                            {
-
-                            }
-                        }*@
 
                 </div>
                 <div class="card-footer  text-center">
@@ -78,10 +76,24 @@
                     </small>
                 </div>
             </div>
-
         }
 
     </div>
+    //modal for map
+    @*<div id="myModal" data-backdrop="static" class="modal fade">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Get Directions</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+
 }
 else
 {
@@ -93,4 +105,20 @@ else
             </button>
         </p>
     </div>
+}
+@section Scripts {
+    <script>
+                //$('.map').on('click', function (e) {
+                //    e.preventDefault();
+                //    var url = $(this).attr('href');
+                //    $(".modal-body").html('<iframe width="100%" height="100%" allowtransparency="true" src="' + url + '"></iframe>');
+                //});
+
+
+                //$('.map').on('click', function (e) {
+                //    e.preventDefault();
+                //    $('#myModal').modal('show').find('.modal-body').load($(this).attr('href'));
+                //});
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

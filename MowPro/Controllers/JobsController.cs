@@ -39,14 +39,6 @@ namespace MowPro.Controllers
                 .Include(c => c.Customer)
                 .Include(c => c.Service).OrderBy(d => d.Date).Where(j => j.Customer.UserId == user.Id && j.IsComplete == false);
 
-            //List<Job> jobs = _context.Job.Include(c => c.Customer).Where(j => j.IsComplete == false).ToList();
-            //ViewData["jobs"] = jobs;
-
-            //// working on this: I want to add a flag to jobs if the customer owes money
-            //List<Job> jobsNotPaid = _context.Job.Include(c => c.Customer).Where(j => j.Paid == false).ToList();
-            // ViewData["notPaid"] = jobsNotPaid;
-                
-            
             if (!String.IsNullOrEmpty(searchString))
             {
                 applicationDbContext = _context.Job
@@ -56,7 +48,7 @@ namespace MowPro.Controllers
                || c.Customer.StreetAddress.Contains(searchString)
                || c.Service.Name.Contains(searchString) || c.Service.Description.Contains(searchString) || c.Notes.Contains(searchString));
 
-            }
+            };
 
             return View(await applicationDbContext.ToListAsync());
         }
