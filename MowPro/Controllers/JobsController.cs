@@ -48,7 +48,7 @@ namespace MowPro.Controllers
                || c.Customer.StreetAddress.Contains(searchString)
                || c.Service.Name.Contains(searchString) || c.Service.Description.Contains(searchString) || c.Notes.Contains(searchString));
 
-            }
+            };
 
             return View(await applicationDbContext.ToListAsync());
         }
