@@ -162,7 +162,7 @@ namespace MowPro.Controllers
             {
                 return NotFound();
             }
-            var serviceSelectItems = await _context.Service.Where(s => s.UserId == user.Id).ToListAsync();
+            var serviceSelectItems = await _context.Service.Where(s => s.IsDeleted == false && s.UserId == user.Id).ToListAsync();
             ViewData["ServiceId"] = new SelectList(serviceSelectItems, "ServiceId", "Name", job.ServiceId);
 
             return View(job);
