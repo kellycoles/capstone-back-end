@@ -36,7 +36,7 @@ namespace MowPro.Controllers
             ViewData["CurrentFilter"] = searchString;
 
             var user = await GetCurrentUserAsync();
-            var customers = _context.Customer.OrderBy(c => c.LastName).Include(p => p.User).Where(p => p.UserId == user.Id);
+            var customers = _context.Customer.OrderBy(c => c.FirstName).Include(p => p.User).Where(p => p.UserId == user.Id);
 
             if (!String.IsNullOrEmpty(searchString))
             {

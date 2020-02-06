@@ -118,8 +118,8 @@ namespace MowPro.Controllers
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var viewModel = new JobCreateViewModel()
             {
-                Customers = await _context.Customer.Where(c => c.UserId == user.Id).ToListAsync(),
-                Services = await _context.Service.Where(s => s.UserId == user.Id && s.IsDeleted == false).ToListAsync()
+                Customers = await _context.Customer.Where(c => c.UserId == user.Id).OrderBy(c=>c.FirstName).ToListAsync(),
+                Services = await _context.Service.Where(s => s.UserId == user.Id && s.IsDeleted == false).OrderBy(s => s.Name).ToListAsync()
             };
             return View(viewModel);
         }
